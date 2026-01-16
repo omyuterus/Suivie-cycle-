@@ -1,16 +1,9 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mon suivi du cycle</title>
-
-  <!-- FAVICONS -->
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#a74d5e">
 
   <style>
     :root{
@@ -22,125 +15,160 @@
       --green:#93b087;
       --dark:#244135;
       --border:#eadfd7;
+      --shadow: 0 10px 30px rgba(31,41,55,.08);
       --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto;
-      background:var(--bg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(167,77,94,.10), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 20%, rgba(147,176,135,.14), transparent 60%),
+                  var(--bg);
       color:var(--text);
     }
     header{
-      max-width:1100px;
-      margin:auto;
-      padding:20px;
+      padding:20px 16px 8px;
+      max-width:1120px;
+      margin:0 auto;
     }
-    h1{margin:0;font-size:22px}
+    .title{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .badge{
-      display:inline-block;
-      margin-top:6px;
       font-size:12px;
       padding:6px 10px;
       border:1px solid var(--border);
       border-radius:999px;
-      background:#fff;
+      background:rgba(255,255,255,.7);
       color:var(--muted);
     }
+    h1{margin:0;font-size:22px;letter-spacing:-.3px}
+    p.lead{margin:10px 0 0;color:var(--muted);line-height:1.45;max-width:96ch}
+
     main{
-      max-width:1100px;
-      margin:auto;
+      max-width:1120px;
+      margin:0 auto;
       padding:16px;
       display:grid;
-      grid-template-columns:1.1fr .9fr;
+      grid-template-columns: 1.1fr .9fr;
       gap:16px;
     }
-    @media(max-width:900px){main{grid-template-columns:1fr}}
+    @media (max-width: 1000px){ main{grid-template-columns:1fr} }
+
     .card{
-      background:#fff;
+      background:var(--card);
       border:1px solid var(--border);
       border-radius:var(--radius);
-      padding:16px;
       box-shadow:var(--shadow);
+      padding:16px;
     }
-    h2{margin-top:0;color:var(--dark)}
-    label{font-size:13px;color:var(--muted)}
-    input,select,textarea,button{
-      width:100%;
-      padding:12px;
-      margin-top:6px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      font-size:14px;
-    }
-    textarea{resize:vertical}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:600px){.row{grid-template-columns:1fr}}
-    button{
-      cursor:pointer;
-      font-weight:700;
-      border:none;
-    }
-    .btn-primary{background:var(--accent);color:#fff}
-    .btn-secondary{background:#93b08733;color:var(--dark)}
+    .card h2{margin:0 0 10px;font-size:16px;color:var(--dark)}
     .note{
-      background:#93b08722;
-      border:1px dashed #93b087;
-      padding:12px;
+      background: rgba(147,176,135,.10);
+      border:1px dashed rgba(147,176,135,.55);
+      padding:10px 12px;
       border-radius:14px;
       font-size:13px;
-      margin-bottom:12px;
+      line-height:1.35;
+      margin:10px 0 14px;
     }
     .note2{
-      background:#a74d5e22;
-      border:1px dashed #a74d5e;
-      padding:12px;
+      background: rgba(167,77,94,.08);
+      border:1px dashed rgba(167,77,94,.35);
+      padding:10px 12px;
       border-radius:14px;
       font-size:13px;
-      margin-bottom:12px;
+      line-height:1.35;
+      margin:10px 0 14px;
     }
+    .muted{color:var(--muted)}
+    form{display:grid;gap:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="text"], input[type="month"], input[type="date"], textarea, select, input[type="number"]{
+      width:100%;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      outline:none;
+      font-size:14px;
+      background:#fff;
+    }
+    textarea{min-height:90px;resize:vertical}
+    .row{display:grid;grid-template-columns: 1fr 1fr;gap:12px}
+    @media (max-width:650px){ .row{grid-template-columns:1fr} }
+
     .chips{display:flex;flex-wrap:wrap;gap:8px}
     .chip{
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:#fff;
-      font-size:13px;
-      display:flex;
-      align-items:center;
-      gap:6px;
+      display:flex;align-items:center;gap:8px;
+      padding:10px 12px;border:1px solid var(--border);
+      border-radius:999px;background: rgba(255,255,255,.85);
+      cursor:pointer;user-select:none;font-size:13px;color:var(--text);
     }
+    .chip input{ accent-color: var(--accent); }
+
     .scale{
       display:grid;
-      grid-template-columns:repeat(11,1fr);
-      gap:6px;
-      margin-top:6px;
+      grid-template-columns: repeat(11, 1fr);
+      gap:6px;align-items:center;
     }
     .scale input{
-      height:36px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      appearance:none;
-      cursor:pointer;
+      width:100%;height:42px;border-radius:14px;border:1px solid var(--border);
+      appearance:none;background:#fff;cursor:pointer;
     }
     .scale input:checked{
       border:2px solid var(--accent);
-      background:#a74d5e22;
+      box-shadow: 0 0 0 4px rgba(167,77,94,.12);
+      background: rgba(167,77,94,.08);
     }
-    .divider{height:1px;background:#eadfd7;margin:14px 0}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+    button{
+      border:none;padding:12px 14px;border-radius:14px;cursor:pointer;
+      font-weight:800;font-size:14px;
+    }
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-secondary{background:rgba(147,176,135,.18);color:var(--dark)}
+    .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+    .btn-danger{background:rgba(167,77,94,.12);border:1px solid rgba(167,77,94,.25);color:var(--dark)}
+
+    .small{font-size:12px;color:var(--muted);line-height:1.35;margin:8px 0 0}
+    .tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+    .tab{
+      padding:10px 12px;border-radius:999px;border:1px solid var(--border);
+      background:#fff;cursor:pointer;font-size:13px;color:var(--muted);
+    }
+    .tab.active{
+      color:var(--dark);
+      border-color: rgba(167,77,94,.35);
+      box-shadow: 0 0 0 4px rgba(167,77,94,.10);
+    }
+
+    .list{display:grid;gap:10px}
+    .entry{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px;
+      background: rgba(251,247,244,.55);
+    }
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;color:var(--muted);font-size:12px}
+    .pill{padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:#fff}
+    .strong{font-weight:900;color:var(--dark)}
+    .divider{height:1px;background:rgba(234,223,215,.8);margin:12px 0}
+    canvas{ width:100% !important; height:260px !important; }
   </style>
 </head>
 
 <body>
-
 <header>
-  <h1>🌙 Mon suivi du cycle</h1>
-  <div class="badge">Confidentiel • reste sur ton téléphone</div>
+  <div class="title">
+    <h1>Mon suivi du cycle 🌙</h1>
+    <span class="badge">Confidentiel · enregistré sur TON appareil</span>
+    <span class="badge">Tu peux modifier à tout moment</span>
+  </div>
+  <p class="lead">Tu notes quand tu veux. Objectif : comprendre ton corps, sans te juger.</p>
 </header>
 
-<main>   
-  <!-- COLONNE GAUCHE -->
+<main>
+  <!-- LEFT -->
   <section class="card">
     <h2>🩷 Mon suivi du mois</h2>
 
@@ -151,86 +179,133 @@
     </div>
 
     <form id="monthForm">
-
       <div class="row">
         <div>
           <label for="month">Mois</label>
-          <input id="month" type="month" required>
+          <input id="month" type="month" required />
         </div>
         <div>
           <label for="nickname">Prénom / pseudo (facultatif)</label>
-          <input id="nickname" type="text" placeholder="ex : Lina / Lili / 🌸">
+          <input id="nickname" type="text" placeholder="ex : Lina / Lili / 🌸" />
         </div>
       </div>
 
       <div class="row">
         <div>
           <label for="startDate">Début des règles</label>
-          <input id="startDate" type="date">
+          <input id="startDate" type="date" />
         </div>
         <div>
           <label for="endDate">Fin des règles</label>
-          <input id="endDate" type="date">
+          <input id="endDate" type="date" />
         </div>
       </div>
 
+      <!-- DOULEUR DU MOIS (juste sous fin des règles) -->
       <div class="note2">
-        <b>🌙 Ramadan (manuel)</b><br>
-        Même si tu utilises l’outil après Ramadan : tu peux écrire ton total + ton avancée.
+        <div class="strong">🩸 Pendant tes règles (ce mois-ci)</div>
+        <label style="margin-top:10px;">As-tu eu mal pendant tes règles ?</label>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="monthPainYesNo" value="oui"> Oui</label>
+          <label class="chip"><input type="radio" name="monthPainYesNo" value="non"> Non</label>
+        </div>
+
+        <div id="monthPainDetails" style="display:none; margin-top:10px;">
+          <label>Intensité (0–10)</label>
+          <div class="scale" id="monthPainScale"></div>
+
+          <label style="margin-top:10px;">Qu’est-ce qui t’a aidée ? (tu peux cocher plusieurs)</label>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Bouillotte / chaleur"> 🔥 Bouillotte / chaleur</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Position"> 🛌 Position</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Respiration"> 🌬️ Respiration</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Camomille"> 🌼 Camomille</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Mélisse"> 🍃 Mélisse</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Verveine"> 🌿 Verveine</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Djeka"> 🫖 Djeka</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Khamaré"> 🫖 Khamaré</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Médicament"> 💊 Médicament</label>
+            <label class="chip"><input type="checkbox" name="monthRelief" value="Rien"> 🙃 Rien</label>
+          </div>
+
+          <label style="margin-top:10px;">
+            Est-ce que ça a aidé ?
+            <span style="color:#6b7280;font-size:12px;">(parfois il faut plusieurs cycles)</span>
+          </label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="monthReliefWorked" value="Oui"> Oui ✅</label>
+            <label class="chip"><input type="radio" name="monthReliefWorked" value="Un peu"> Un peu 🙂</label>
+            <label class="chip"><input type="radio" name="monthReliefWorked" value="Pas vraiment"> Pas vraiment 😕</label>
+            <label class="chip"><input type="radio" name="monthReliefWorked" value="Je ne sais pas"> Je ne sais pas</label>
+          </div>
+
+          <div class="note2" id="monthPainAdvice" style="margin-top:10px; display:none;"></div>
+        </div>
+      </div>
+
+      <!-- RAMADAN -->
+      <div class="note2">
+        <div class="strong">🌙 Ramadan (manuel + réactif)</div>
+        <div class="small muted">Tu mets ton total, puis tu ajoutes au fur et à mesure → “restants” se calcule tout seul.</div>
       </div>
 
       <div class="row">
         <div>
-          <label class="chip" style="width:100%;justify-content:center;">
-            <input type="checkbox" id="ramadan">
+          <label class="chip" style="justify-content:center; width:100%;">
+            <input type="checkbox" id="ramadan" />
             J’ai des jours à rattraper (Ramadan)
           </label>
         </div>
         <div>
           <label for="ramadanTotal">Total de jours à rattraper</label>
-          <input id="ramadanTotal" type="number" min="0" step="1" placeholder="ex : 6">
+          <input id="ramadanTotal" type="number" min="0" step="1" placeholder="ex : 5" />
         </div>
       </div>
 
       <div class="row">
         <div>
           <label for="ramadanDone">Jours déjà rattrapés</label>
-          <input id="ramadanDone" type="number" min="0" step="1" placeholder="ex : 2">
+          <input id="ramadanDone" type="number" min="0" step="1" placeholder="ex : 1" />
+          <div class="actions">
+            <button class="btn-secondary" type="button" id="ramadanPlusOneBtn">+1 jour rattrapé</button>
+            <button class="btn-secondary" type="button" id="ramadanDoneBtn">J’ai fini ✅</button>
+            <button class="btn-ghost" type="button" id="ramadanResetBtn">Remettre à zéro (Ramadan suivant)</button>
+          </div>
         </div>
         <div>
-          <label for="ramadanRemaining">Jours restants</label>
-          <input id="ramadanRemaining" type="text" disabled>
+          <label>Jours restants</label>
+          <input id="ramadanRemaining" type="text" disabled />
+          <div class="note" id="ramadanCongrats" style="display:none; margin-top:10px;">
+            🎉 Bravo ! Tu as tout rattrapé.
+          </div>
         </div>
       </div>
 
       <div class="note2" id="monthStatusBox"></div>
 
-      <div class="row">
+      <div class="actions">
         <button class="btn-secondary" type="button" id="saveMonthBtn">Enregistrer / mettre à jour le mois</button>
-        <button type="button" id="exportMonthBtn">📄 Export résumé (texte)</button>
+        <button class="btn-ghost" type="button" id="exportMonthBtn">📄 Export résumé (texte)</button>
       </div>
 
       <div class="divider"></div>
 
-      <h2 style="margin-bottom:6px;">➕ Ajouter une entrée</h2>
-      <div class="note">
-        Une entrée = tu notes un moment de ta journée (douleur, ovulation, humeur, plantes…).<br>
-        Tu peux en faire <b>autant que tu veux</b>.
-      </div>
+      <h2 style="margin-top:0;">➕ Ajouter une entrée (quotidienne si tu veux)</h2>
+      <div class="note">Une entrée = un mini pointage (douleur, ovulation, humeur…). Tu peux en faire tous les jours.</div>
 
       <div class="row">
         <div>
           <label for="entryDate">Date</label>
-          <input id="entryDate" type="date" required>
+          <input id="entryDate" type="date" required />
         </div>
         <div>
           <label for="entryType">Type</label>
           <select id="entryType" required>
             <option value="" selected disabled>Choisir…</option>
             <option value="ovulation">Ovulation / signes</option>
-            <option value="regles">Règles / douleur</option>
+            <option value="regles">Règles / douleur (jour)</option>
             <option value="spm">SPM / humeur / stress</option>
-            <option value="plantes">Plantes prises</option>
+            <option value="plantes">Plantes / solutions testées</option>
             <option value="alimentation">Alimentation (simple)</option>
             <option value="note">Note libre</option>
           </select>
@@ -269,7 +344,7 @@
         </div>
       </div>
 
-      <!-- DOULEUR OUI/NON -->
+      <!-- REGLES / DOULEUR JOUR -->
       <div id="painBlock" style="display:none;">
         <label>As-tu eu mal aujourd’hui ?</label>
         <div class="chips">
@@ -286,14 +361,41 @@
             <label class="chip"><input type="checkbox" name="painWhere" value="Autre"> Autre</label>
           </div>
 
-          <label style="margin-top:10px;display:block;">Intensité (0–10)</label>
-          <div class="scale" id="painScale"></div>
+          <div style="margin-top:10px;">
+            <label>Intensité (0–10)</label>
+            <div class="scale" id="painScale"></div>
+          </div>
+
+          <label style="margin-top:10px;">Qu’est-ce que tu as testé ?</label>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="relief" value="Bouillotte / chaleur"> 🔥 Bouillotte / chaleur</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Position"> 🛌 Position</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Respiration"> 🌬️ Respiration</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Camomille"> 🌼 Camomille</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Mélisse"> 🍃 Mélisse</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Verveine"> 🌿 Verveine</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Djeka"> 🫖 Djeka</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Khamaré"> 🫖 Khamaré</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Médicament"> 💊 Médicament</label>
+            <label class="chip"><input type="checkbox" name="relief" value="Rien"> 🙃 Rien</label>
+          </div>
+
+          <label style="margin-top:10px;">
+            Est-ce que ça t’a aidée ?
+            <span style="color:#6b7280;font-size:12px;">(parfois il faut plusieurs cycles)</span>
+          </label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="reliefWorked" value="Oui, beaucoup"> Oui, beaucoup ✅</label>
+            <label class="chip"><input type="radio" name="reliefWorked" value="Un peu"> Un peu 🙂</label>
+            <label class="chip"><input type="radio" name="reliefWorked" value="Pas trop"> Pas trop 😕</label>
+            <label class="chip"><input type="radio" name="reliefWorked" value="Je ne sais pas"> Je ne sais pas</label>
+          </div>
         </div>
       </div>
 
       <!-- SPM -->
       <div id="spmBlock" style="display:none;">
-        <label>Humeur / SPM (tu peux cocher plusieurs)</label>
+        <label>SPM / humeur (tu peux cocher plusieurs)</label>
         <div class="chips">
           <label class="chip"><input type="checkbox" name="mood" value="Calme"> 🙂 Calme</label>
           <label class="chip"><input type="checkbox" name="mood" value="Stressée"> 😵 Stressée</label>
@@ -306,36 +408,29 @@
         </div>
       </div>
 
-      <!-- PLANTES -->
+      <!-- PLANTES / SOLUTIONS -->
       <div id="plantsBlock" style="display:none;">
-        <label>Plantes prises aujourd’hui</label>
+        <label>Qu’as-tu pris / testé aujourd’hui ?</label>
         <div class="chips">
           <label class="chip"><input type="checkbox" name="plants" value="Camomille"> 🌼 Camomille</label>
           <label class="chip"><input type="checkbox" name="plants" value="Mélisse"> 🍃 Mélisse</label>
           <label class="chip"><input type="checkbox" name="plants" value="Verveine"> 🌿 Verveine</label>
           <label class="chip"><input type="checkbox" name="plants" value="Djeka"> 🫖 Djeka</label>
           <label class="chip"><input type="checkbox" name="plants" value="Khamaré"> 🫖 Khamaré</label>
+          <label class="chip"><input type="checkbox" name="plants" value="Bouillotte / chaleur"> 🔥 Bouillotte / chaleur</label>
+          <label class="chip"><input type="checkbox" name="plants" value="Médicament"> 💊 Médicament</label>
+          <label class="chip"><input type="checkbox" name="plants" value="Rien"> 🙃 Rien</label>
         </div>
 
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label>Combien de tasses ?</label>
-            <select id="cups">
-              <option value="0" selected>0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-          <div>
-            <label>Moment</label>
-            <select id="whenCups">
-              <option value="" selected>—</option>
-              <option value="matin">Matin</option>
-              <option value="après-midi">Après-midi</option>
-              <option value="soir">Soir</option>
-              <option value="dès la douleur">Dès la douleur</option>
-            </select>
-          </div>
+        <label style="margin-top:10px;">
+          Est-ce que ça t’a aidée ?
+          <span style="color:#6b7280;font-size:12px;">(parfois il faut plusieurs cycles)</span>
+        </label>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="plantsWorked" value="Oui"> Oui ✅</label>
+          <label class="chip"><input type="radio" name="plantsWorked" value="Un peu"> Un peu 🙂</label>
+          <label class="chip"><input type="radio" name="plantsWorked" value="Pas vraiment"> Pas vraiment 😕</label>
+          <label class="chip"><input type="radio" name="plantsWorked" value="Je ne sais pas"> Je ne sais pas</label>
         </div>
       </div>
 
@@ -344,115 +439,32 @@
         <label>Alimentation (simple, sans jugement)</label>
         <div class="chips">
           <label class="chip"><input type="checkbox" name="food" value="J’ai bu de l’eau"> 💧 J’ai bu de l’eau</label>
-          <label class="chip"><input type="checkbox" name="food" value="Plutôt maison"> 🍲 Plutôt maison</label>
-          <label class="chip"><input type="checkbox" name="food" value="Fast-food / ultra transformé"> 🍟 Fast-food / ultra transformé</label>
-          <label class="chip"><input type="checkbox" name="food" value="Beaucoup de sucre"> 🍫 Beaucoup de sucre</label>
-          <label class="chip"><input type="checkbox" name="food" value="Fruits / légumes"> 🍎 Fruits / légumes</label>
-        </div>
-      </div>
+          <label class="chip"><input type="checkbox" name="food" value="J’ai mangé maison"> 🍲 Plutôt maison</label>
+          <label class="chip"><input type="checkbox" name="food" value="Fast-food / ultra transformé"> 🍟 Fast-food / ultra transformé
 
-      <!-- CONSEIL DYNAMIQUE -->
-      <div class="note2" id="adviceBox" style="display:none;"></div>
+            const LS_KEY = "cycle_months_v4_full";
 
-      <div>
-        <label for="entryNotes">Note libre (facultatif)</label>
-        <textarea id="entryNotes" placeholder="ex : journée stressante / mauvaise nuit / j’ai pris 1 tasse…"></textarea>
-      </div>
-
-      <div class="row">
-        <button class="btn-primary" type="button" id="addEntryBtn">Enregistrer cette entrée ✨</button>
-        <button type="button" id="clearEntryBtn">Vider l’entrée</button>
-      </div>
-
-      <div class="note" style="margin-top:10px;">
-        ⚠️ Si douleur très forte, malaise, vomissements, règles très abondantes → parle à un adulte + consulte.
-      </div>
-
-    </form>
-  </section>
-
-  <!-- COLONNE DROITE -->
-  <aside class="card">
-    <h2>🧰 Mes solutions </h2>
-
-    <div class="note">
-      <b>Quand j’ai mal LÀ, tout de suite :</b><br>
-      • <b>Bouillotte / chaleur</b> (bas-ventre ou bas du dos) 15–20 min, tu peux recommencer.<br>
-      • <b>Positions</b> : sur le côté genoux repliés / recroquevillée / posture “bébé”.<br>
-      • <b>Respiration</b> : inspire 4 sec → expire 6 sec, pendant 2–3 minutes.<br>
-      • <b>Eau</b> + petit truc à manger si tu as rien dans le ventre (banane / dattes / tartine).<br>
-      <span style="color:#6b7280;font-size:12px;">Objectif : calmer le système nerveux + détendre l’utérus.</span>
-    </div>
-
-    <div class="note2">
-      <b>Ce qu’on entend souvent… et ce que je veux que tu retiennes :</b><br>
-      • “C’est normal d’avoir mal” → <b>non</b>, c’est fréquent mais pas obligatoire.<br>
-      • “Prends un Spasfon et tais-toi” → ça aide parfois, mais <b>ça ne règle pas la cause</b>.<br>
-      • La douleur = un <b>signal</b>. On observe, on comprend, et on aide le corps à se réguler.
-    </div>
-
-    <div class="note">
-      <b>Plantes douces (stress/SPM) — semaine AVANT les règles :</b><br>
-      <b>Camomille / Mélisse / Verveine</b><br>
-      • <b>Quand ?</b> le soir, ou dès que tu sens que tu es plus tendue / irritable / fatiguée.<br>
-      • <b>Combien ?</b> 1 tasse/jour (tu peux monter à 2 si besoin).<br>
-      • <b>Comment ?</b> infusion 5–10 min.<br>
-      • <b>Pourquoi ?</b> ça aide le stress + le sommeil → et souvent ça calme le SPM.
-    </div>
-
-    <div class="note2">
-      <b>Djeka & Khamaré (prévention + douleur) :</b><br>
-      <b>Préparation</b> : rincer environ 4/5 feuilles → casserole d’eau → <b>bouillir 10 minutes</b> → filtrer.<br>
-      • Tu peux boire <b>chaud</b> ou <b>froid</b> (mais la décoction = obligatoire).<br>
-      • <b>Réutilisable 2 fois</b> (2 décoctions max).<br><br>
-
-      <b>Prévention</b> : 1 tasse/jour pendant <b>3 jours autour de l’ovulation</b> → pendant <b>3 cycles</b>, puis pause.<br>
-      <b>Instant T</b> : 1 tasse dès que la douleur arrive → souvent ça calme vite sur le moment.
-    </div>
-
-    <div class="note">
-      <b>Alimentation “anti-inflammatoire” (sans te priver) :</b><br>
-      • Si tu as mal : réduis un peu <b>sucre</b> + <b>ultra-transformé</b> 2–3 jours.<br>
-      • Ajoute : <b>eau</b> + repas simple + fruits/légumes.<br>
-      • Oui tu peux manger un tacos 😄 mais ton corps dit merci quand tu équilibres.<br>
-      • Plus ton corps est “chargé” (sucre + stress + fatigue), plus il peut être en mode <b>inflammation</b>.
-    </div>
-
-    <div class="divider"></div>
-
-    <h2>📊 Récap & Graphiques</h2>
-
-    <div style="display:flex;gap:8px;margin-bottom:10px;">
-      <button type="button" class="btn-secondary" id="tabGraph">Graphiques</button>
-      <button type="button" id="tabMonth">Mois</button>
-      <button type="button" id="tabHistory">Historique</button>
-    </div>
-
-    <div id="panelGraph">
-      <canvas id="painChart"></canvas>
-      <div style="height:10px;"></div>
-      <canvas id="durationChart"></canvas>
-    </div>
-
-    <div id="panelMonth" style="display:none;">
-      <div class="note" id="currentMonthBox"></div>
-      <div id="currentEntriesList"></div>
-    </div>
-
-    <div id="panelHistory" style="display:none;">
-      <div class="row" style="margin-bottom:10px;">
-        <button class="btn-secondary" type="button" id="exportBtn">Exporter (JSON)</button>
-        <button type="button" id="clearAllBtn">Tout supprimer</button>
-      </div>
-      <div id="monthsList"></div>
-    </div>
-
-  </aside>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script>
-  const LS_KEY = "cycle_months_full_v1";
+  function loadMonths(){
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function saveMonths(months){ localStorage.setItem(LS_KEY, JSON.stringify(months)); }
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
+  }
+  function daysBetween(a,b){
+    if(!a || !b) return 0;
+    const diff = (new Date(b) - new Date(a)) / (1000*60*60*24);
+    return Number.isFinite(diff) ? Math.max(0, Math.round(diff)+1) : 0;
+  }
+  function getCheckedValues(name){
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(x=>x.value);
+  }
+  function getRadioValue(name){
+    return document.querySelector(`input[name="${name}"]:checked`)?.value ?? null;
+  }
 
   const monthInput = document.getElementById("month");
   const nicknameInput = document.getElementById("nickname");
@@ -463,6 +475,10 @@
   const ramadanTotalInput = document.getElementById("ramadanTotal");
   const ramadanDoneInput = document.getElementById("ramadanDone");
   const ramadanRemainingInput = document.getElementById("ramadanRemaining");
+  const ramadanPlusOneBtn = document.getElementById("ramadanPlusOneBtn");
+  const ramadanDoneBtn = document.getElementById("ramadanDoneBtn");
+  const ramadanResetBtn = document.getElementById("ramadanResetBtn");
+  const ramadanCongrats = document.getElementById("ramadanCongrats");
 
   const statusBox = document.getElementById("monthStatusBox");
   const saveMonthBtn = document.getElementById("saveMonthBtn");
@@ -481,107 +497,220 @@
 
   const ovuSide = document.getElementById("ovuSide");
   const mucusType = document.getElementById("mucusType");
-  const cups = document.getElementById("cups");
-  const whenCups = document.getElementById("whenCups");
 
   const adviceBox = document.getElementById("adviceBox");
-
   const addEntryBtn = document.getElementById("addEntryBtn");
   const clearEntryBtn = document.getElementById("clearEntryBtn");
 
-  // Tabs
-  const tabGraph = document.getElementById("tabGraph");
-  const tabMonth = document.getElementById("tabMonth");
-  const tabHistory = document.getElementById("tabHistory");
-  const panelGraph = document.getElementById("panelGraph");
-  const panelMonth = document.getElementById("panelMonth");
-  const panelHistory = document.getElementById("panelHistory");
+  const monthPainDetails = document.getElementById("monthPainDetails");
+  const monthPainAdvice = document.getElementById("monthPainAdvice");
 
-  tabGraph.onclick = () => { panelGraph.style.display="block"; panelMonth.style.display="none"; panelHistory.style.display="none"; };
-  tabMonth.onclick = () => { panelGraph.style.display="none"; panelMonth.style.display="block"; panelHistory.style.display="none"; };
-  tabHistory.onclick = () => { panelGraph.style.display="none"; panelMonth.style.display="none"; panelHistory.style.display="block"; };
-
-  function loadMonths(){ try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); } catch { return []; } }
-  function saveMonths(data){ localStorage.setItem(LS_KEY, JSON.stringify(data)); }
-
-  function daysBetween(start, end){
-    if(!start || !end) return 0;
-    const s = new Date(start), e = new Date(end);
-    const diff = (e - s)/(1000*60*60*24);
-    return Number.isFinite(diff) ? Math.max(0, Math.round(diff)+1) : 0;
+  // --- Données mois ---
+  function getMonthObj(month){
+    const months = loadMonths();
+    return months.find(m=>m.month===month) || null;
+  }
+  function upsertMonth(month, patch){
+    const months = loadMonths();
+    const idx = months.findIndex(m=>m.month===month);
+    const nowIso = new Date().toISOString();
+    if(idx>=0){
+      months[idx] = { ...months[idx], ...patch, updatedAt: nowIso };
+    } else {
+      months.push({ month, entries: [], createdAt: nowIso, updatedAt: nowIso, ...patch });
+    }
+    saveMonths(months);
   }
 
-  function getCheckedValues(name){
-    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(x=>x.value);
+  function addEntryToMonth(month, entry){
+    const months = loadMonths();
+    const idx = months.findIndex(m=>m.month===month);
+    if(idx<0){
+      upsertMonth(month, readMonthFields());
+      return addEntryToMonth(month, entry);
+    }
+    months[idx].entries = months[idx].entries || [];
+    months[idx].entries.push(entry);
+    months[idx].updatedAt = new Date().toISOString();
+    saveMonths(months);
   }
 
-  // Default month + date
+  // --- Defaults ---
   const now = new Date();
   monthInput.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
   entryDate.valueAsDate = new Date();
 
-  // Scale 0..10
-  const painScale = document.getElementById("painScale");
-  for(let i=0;i<=10;i++){
-    const r = document.createElement("input");
-    r.type="radio"; r.name="painLevel"; r.value=String(i);
-    painScale.appendChild(r);
+  // --- Build scales 0-10 ---
+  function buildScale(containerId, inputName){
+    const c = document.getElementById(containerId);
+    c.innerHTML = "";
+    for(let i=0;i<=10;i++){
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = inputName;
+      input.value = String(i);
+      input.title = String(i);
+      c.appendChild(input);
+    }
   }
+  buildScale("painScale", "painLevel");
+  buildScale("monthPainScale", "monthPainLevel");
 
+  // --- Ramadan réactif ---
   function renderRamadanRemaining(){
-    if(!ramadanInput.checked){
-      ramadanRemainingInput.value="—";
-      ramadanTotalInput.disabled=true;
-      ramadanDoneInput.disabled=true;
+    const on = !!ramadanInput.checked;
+    if(!on){
+      ramadanTotalInput.disabled = true;
+      ramadanDoneInput.disabled  = true;
+      ramadanRemainingInput.value = "—";
+      ramadanCongrats.style.display = "none";
       return;
     }
-    ramadanTotalInput.disabled=false;
-    ramadanDoneInput.disabled=false;
-    const total = Math.max(0, Number(ramadanTotalInput.value||0));
-    const done = Math.max(0, Number(ramadanDoneInput.value||0));
-    ramadanRemainingInput.value = `${Math.max(0,total-done)} jour(s)`;
-  }
-  ramadanInput.onchange = renderRamadanRemaining;
-  ramadanTotalInput.oninput = renderRamadanRemaining;
-  ramadanDoneInput.oninput = renderRamadanRemaining;
+    ramadanTotalInput.disabled = false;
+    ramadanDoneInput.disabled  = false;
 
-  function upsertMonth(month, patch){
-    const months = loadMonths();
-    const i = months.findIndex(m=>m.month===month);
-    if(i>=0) months[i] = { ...months[i], ...patch };
-    else months.push({ month, entries:[], ...patch });
-    saveMonths(months);
+    const total = Math.max(0, Number(ramadanTotalInput.value || 0));
+    const done  = Math.max(0, Number(ramadanDoneInput.value || 0));
+    const remaining = Math.max(0, total - done);
+
+    ramadanRemainingInput.value = `${remaining} jour(s)`;
+    ramadanCongrats.style.display = (total > 0 && remaining === 0) ? "block" : "none";
   }
-  function getMonthObj(month){
-    return loadMonths().find(m=>m.month===month) || null;
+
+  function autoSaveMonthIfPossible(){
+    const month = monthInput.value;
+    if(!month) return;
+    upsertMonth(month, readMonthFields());
+    renderMonthStatus();
+    if(typeof refreshUI === "function") refreshUI();
   }
-  function addEntryToMonth(month, entry){
-    const months = loadMonths();
-    const i = months.findIndex(m=>m.month===month);
-    if(i<0){
-      upsertMonth(month, readMonthFields());
-      return addEntryToMonth(month, entry);
+
+  ramadanInput.addEventListener("change", ()=>{
+    if(!ramadanInput.checked){
+      ramadanTotalInput.value = "";
+      ramadanDoneInput.value = "";
     }
-    months[i].entries.push(entry);
-    saveMonths(months);
+    renderRamadanRemaining();
+    autoSaveMonthIfPossible();
+  });
+  ramadanTotalInput.addEventListener("input", ()=>{ renderRamadanRemaining(); autoSaveMonthIfPossible(); });
+  ramadanDoneInput.addEventListener("input", ()=>{ renderRamadanRemaining(); autoSaveMonthIfPossible(); });
+
+  ramadanPlusOneBtn.addEventListener("click", ()=>{
+    if(!ramadanInput.checked) ramadanInput.checked = true;
+
+    const total = Math.max(0, Number(ramadanTotalInput.value || 0));
+    let done = Math.max(0, Number(ramadanDoneInput.value || 0));
+    done += 1;
+    if(total > 0) done = Math.min(done, total);
+
+    ramadanDoneInput.value = String(done);
+    renderRamadanRemaining();
+    autoSaveMonthIfPossible();
+  });
+
+  ramadanDoneBtn.addEventListener("click", ()=>{
+    if(!ramadanInput.checked) ramadanInput.checked = true;
+
+    const total = Math.max(0, Number(ramadanTotalInput.value || 0));
+    if(total <= 0){
+      alert("Mets d’abord ton total de jours à rattraper 😊");
+      return;
+    }
+    ramadanDoneInput.value = String(total);
+    renderRamadanRemaining();
+    autoSaveMonthIfPossible();
+  });
+
+  ramadanResetBtn.addEventListener("click", ()=>{
+    ramadanInput.checked = false;
+    ramadanTotalInput.value = "";
+    ramadanDoneInput.value = "";
+    renderRamadanRemaining();
+    autoSaveMonthIfPossible();
+  });
+
+  // --- Conseil douleur (mois) ---
+  function updateMonthPainAdvice(){
+    const yesNo = getRadioValue("monthPainYesNo");
+    if(yesNo !== "oui"){
+      monthPainAdvice.style.display = "none";
+      return;
+    }
+    const lvl = Number(getRadioValue("monthPainLevel") ?? 0);
+
+    let msg = `💡 <b>Plan anti-douleur</b> : bouillotte + respiration + eau. `;
+    if(lvl>=8){
+      msg += `<br><br><b>8–10</b> : Djeka/Khamaré dès la douleur + repos. Si tu ne peux pas fonctionner → parle à un adulte + consulte.`;
+    } else if(lvl>=5){
+      msg += `<br><br><b>5–7</b> : bouillotte + tisane (camomille) ou Djeka/Khamaré + réduire un peu sucre/ultra-transformé 2–3 jours.`;
+    } else if(lvl>=1){
+      msg += `<br><br><b>1–4</b> : chaleur + tisane douce + note ce qui aide.`;
+    } else {
+      msg += `<br><br>Choisis un chiffre (0–10) pour noter.`;
+    }
+    msg += `<br><br><span style="color:#6b7280;font-size:12px;">(parfois il faut plusieurs cycles pour voir un vrai changement)</span>`;
+
+    monthPainAdvice.innerHTML = msg;
+    monthPainAdvice.style.display = "block";
   }
-  function deleteEntry(month, id){
-    const months = loadMonths();
-    const i = months.findIndex(m=>m.month===month);
-    if(i<0) return;
-    months[i].entries = months[i].entries.filter(e=>e.id!==id);
-    saveMonths(months);
-  }
+
+  document.addEventListener("change", (e)=>{
+    if(e.target?.name === "monthPainYesNo"){
+      const yes = e.target.value === "oui";
+      monthPainDetails.style.display = yes ? "block" : "none";
+      if(!yes){
+        document.querySelectorAll('input[name="monthPainLevel"]').forEach(r=>r.checked=false);
+        document.querySelectorAll('input[name="monthRelief"]').forEach(cb=>cb.checked=false);
+        document.querySelectorAll('input[name="monthReliefWorked"]').forEach(r=>r.checked=false);
+        monthPainAdvice.style.display = "none";
+      } else {
+        updateMonthPainAdvice();
+      }
+      autoSaveMonthIfPossible();
+    }
+
+    if(e.target?.name === "monthPainLevel" || e.target?.name === "monthRelief" || e.target?.name === "monthReliefWorked"){
+      updateMonthPainAdvice();
+      autoSaveMonthIfPossible();
+    }
+
+    if(e.target?.name === "painYesNo"){
+      const yes = e.target.value === "oui";
+      painDetails.style.display = yes ? "block" : "none";
+      if(!yes){
+        document.querySelectorAll('input[name="painWhere"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('input[name="painLevel"]').forEach(r => r.checked = false);
+        document.querySelectorAll('input[name="relief"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('input[name="reliefWorked"]').forEach(r => r.checked = false);
+      }
+      updateAdvice();
+    }
+
+    if(e.target?.name === "painLevel"){
+      updateAdvice();
+    }
+  });
 
   function readMonthFields(){
-    const ram = !!ramadanInput.checked;
+    const onRam = !!ramadanInput.checked;
+
+    const monthPainYesNo = getRadioValue("monthPainYesNo");
+    const monthPainLevel = Number(getRadioValue("monthPainLevel") ?? 0);
+
     return {
       nickname: nicknameInput.value.trim() || null,
       startDate: startDateInput.value || null,
       endDate: endDateInput.value || null,
-      ramadan: ram,
-      ramadanTotal: ram ? Math.max(0, Number(ramadanTotalInput.value||0)) : 0,
-      ramadanDone: ram ? Math.max(0, Number(ramadanDoneInput.value||0)) : 0
+
+      ramadan: onRam,
+      ramadanTotal: onRam ? Math.max(0, Number(ramadanTotalInput.value || 0)) : 0,
+      ramadanDone: onRam ? Math.max(0, Number(ramadanDoneInput.value || 0)) : 0,
+
+      monthPain: monthPainYesNo,
+      monthPainLevel: (monthPainYesNo==="oui") ? monthPainLevel : 0,
+      monthRelief: (monthPainYesNo==="oui") ? getCheckedValues("monthRelief") : [],
+      monthReliefWorked: (monthPainYesNo==="oui") ? getRadioValue("monthReliefWorked") : null
     };
   }
 
@@ -591,22 +720,530 @@
       statusBox.innerHTML = `🟡 <b>${monthInput.value}</b> : pas encore enregistré.`;
       return;
     }
-    const dur = daysBetween(m.startDate, m.endDate);
-    const ram = m.ramadan ? `🌙 Ramadan : total <b>${m.ramadanTotal}</b> · rattrapés <b>${m.ramadanDone}</b> · reste <b>${Math.max(0,m.ramadanTotal-m.ramadanDone)}</b>` : "🌙 Ramadan : non";
-    statusBox.innerHTML = `📅 <b>${m.month}</b> • 🩸 <b>${dur||0}</b> jours • 🗂️ <b>${(m.entries||[]).length}</b> entrées<br>${ram}`;
-  }
+    const duration = daysBetween(m.startDate, m.endDate);
+    const ramTxt = m.ramadan
+      ? `🌙 Ramadan : total <b>${m.ramadanTotal}</b> · rattrapés <b>${m.ramadanDone}</b> · reste <b>${Math.max(0,m.ramadanTotal-m.ramadanDone)}</b>`
+      : `🌙 Ramadan : non`;
 
-  function syncMonthFromStorage(){
+    const painTxt = (m.monthPain==="oui")
+      ? `🩸 Douleur règles (mois) : <b>${m.monthPainLevel}/10</b> · Aidé ? <b>${m.monthReliefWorked || "—"}</b>`
+      : `🩸 Douleur règles (mois) : ${m.monthPain==="non" ? "<b>non</b>" : "—"}`;
+
+    statusBox.innerHTML = `
+      <div class="meta">
+        <span class="pill">📅 ${m.month}</span>
+        <span class="pill">🩸 ${duration || 0} jours</span>
+        <span class="pill">🗂️ ${(m.entries || []).length} entrées</span>
+      </div>
+      <div class="small">${painTxt}</div>
+      <div class="small">${ramTxt}</div>
+    `;
+  }
+      function syncMonthFieldsFromStorage(){
     const m = getMonthObj(monthInput.value);
+
     if(!m){
-      startDateInput.value="";
-      endDateInput.value="";
-      ramadanInput.checked=false;
-      ramadanTotalInput.value="";
-      ramadanDoneInput.value="";
+      nicknameInput.value = "";
+      startDateInput.value = "";
+      endDateInput.value = "";
+
+      document.querySelectorAll('input[name="monthPainYesNo"]').forEach(r=>r.checked=false);
+      monthPainDetails.style.display="none";
+      document.querySelectorAll('input[name="monthPainLevel"]').forEach(r=>r.checked=false);
+      document.querySelectorAll('input[name="monthRelief"]').forEach(cb=>cb.checked=false);
+      document.querySelectorAll('input[name="monthReliefWorked"]').forEach(r=>r.checked=false);
+      monthPainAdvice.style.display="none";
+
+      ramadanInput.checked = false;
+      ramadanTotalInput.value = "";
+      ramadanDoneInput.value = "";
       renderRamadanRemaining();
+
       renderMonthStatus();
-      refreshUI();
+      if(typeof refreshUI === "function") refreshUI();
       return;
     }
-    nicknameInput.value = m.nickname || 
+
+    nicknameInput.value = m.nickname || "";
+    startDateInput.value = m.startDate || "";
+    endDateInput.value = m.endDate || "";
+
+    // Month pain
+    document.querySelectorAll('input[name="monthPainYesNo"]').forEach(r=>r.checked = (r.value===m.monthPain));
+    if(m.monthPain==="oui"){
+      monthPainDetails.style.display="block";
+      document.querySelectorAll('input[name="monthPainLevel"]').forEach(r=>r.checked = (Number(r.value)===Number(m.monthPainLevel||0)));
+      document.querySelectorAll('input[name="monthRelief"]').forEach(cb=>cb.checked = (m.monthRelief||[]).includes(cb.value));
+      document.querySelectorAll('input[name="monthReliefWorked"]').forEach(r=>r.checked = (r.value===m.monthReliefWorked));
+      updateMonthPainAdvice();
+    } else {
+      monthPainDetails.style.display="none";
+      monthPainAdvice.style.display="none";
+      document.querySelectorAll('input[name="monthPainLevel"]').forEach(r=>r.checked=false);
+      document.querySelectorAll('input[name="monthRelief"]').forEach(cb=>cb.checked=false);
+      document.querySelectorAll('input[name="monthReliefWorked"]').forEach(r=>r.checked=false);
+    }
+
+    // Ramadan
+    ramadanInput.checked = !!m.ramadan;
+    ramadanTotalInput.value = m.ramadan ? String(m.ramadanTotal ?? 0) : "";
+    ramadanDoneInput.value  = m.ramadan ? String(m.ramadanDone ?? 0) : "";
+    renderRamadanRemaining();
+
+    renderMonthStatus();
+    if(typeof refreshUI === "function") refreshUI();
+  }
+
+  monthInput.addEventListener("change", syncMonthFieldsFromStorage);
+
+  saveMonthBtn.addEventListener("click", ()=>{
+    const month = monthInput.value;
+    if(!month){ alert("Choisis le mois."); return; }
+    upsertMonth(month, readMonthFields());
+    alert("Mois enregistré ✅");
+    renderMonthStatus();
+    if(typeof refreshUI === "function") refreshUI();
+  });
+
+  exportMonthBtn.addEventListener("click", ()=>{
+    const m = getMonthObj(monthInput.value);
+    if(!m){ alert("Enregistre d’abord le mois."); return; }
+
+    const duration = daysBetween(m.startDate, m.endDate);
+    const regs = (m.entries||[]).filter(e=>e.type==="regles" && e.pain==="oui" && typeof e.painLevel==="number");
+    const avgPain = regs.length ? Math.round((regs.reduce((s,e)=>s+e.painLevel,0)/regs.length)*10)/10 : 0;
+
+    const lines = [];
+    lines.push(`Mois: ${m.month}`);
+    if(m.nickname) lines.push(`Pseudo: ${m.nickname}`);
+    lines.push(`Règles: ${m.startDate || "—"} → ${m.endDate || "—"} (durée: ${duration} jours)`);
+    lines.push(`Douleur moyenne (jours notés): ${avgPain}/10`);
+    lines.push(`Douleur règles (mois): ${m.monthPain==="oui" ? `${m.monthPainLevel}/10` : (m.monthPain==="non" ? "non" : "—")}`);
+    if(m.monthPain==="oui"){
+      lines.push(`Ce qui a aidé: ${(m.monthRelief||[]).join(", ") || "—"}`);
+      lines.push(`Efficacité: ${m.monthReliefWorked || "—"}`);
+    }
+    lines.push(`Ramadan: ${m.ramadan ? "oui" : "non"}`);
+    if(m.ramadan){
+      lines.push(`  Total: ${m.ramadanTotal}`);
+      lines.push(`  Déjà rattrapés: ${m.ramadanDone}`);
+      lines.push(`  Restants: ${Math.max(0, m.ramadanTotal - m.ramadanDone)}`);
+    }
+
+    lines.push("");
+    lines.push("Entrées:");
+    (m.entries||[]).slice().sort((a,b)=>(a.date||"").localeCompare(b.date||"")).forEach(e=>{
+      lines.push(`- ${e.date} [${e.type}] ${e.notes ? e.notes : ""}`);
+    });
+
+    const blob = new Blob([lines.join("\n")], {type:"text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `suivi-cycle-${m.month}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Entry type toggle
+  entryType.addEventListener("change", ()=>{
+    const t = entryType.value;
+    ovulationBlock.style.display = (t === "ovulation") ? "block" : "none";
+    painBlock.style.display      = (t === "regles") ? "block" : "none";
+    spmBlock.style.display       = (t === "spm") ? "block" : "none";
+    plantsBlock.style.display    = (t === "plantes") ? "block" : "none";
+    foodBlock.style.display      = (t === "alimentation") ? "block" : "none";
+    updateAdvice();
+  });
+
+  function updateAdvice(){
+    const t = entryType.value;
+    if(!t){ adviceBox.style.display="none"; return; }
+
+    let msg = "";
+    if(t === "regles"){
+      const yesNo = getRadioValue("painYesNo");
+      if(yesNo === "non"){
+        msg = `💡 <b>Top</b> : pas de douleur aujourd’hui ✅`;
+      } else if(yesNo === "oui"){
+        const lvl = Number(getRadioValue("painLevel") ?? 0);
+        msg = `💡 <b>Plan anti-douleur</b> : bouillotte + respiration + eau. `;
+        if(lvl >= 8){
+          msg += `<br><br><b>8–10</b> : Djeka/Khamaré dès la douleur + repos. Si tu ne peux pas fonctionner → parle à un adulte + consulte.`;
+        } else if(lvl >= 5){
+          msg += `<br><br><b>5–7</b> : bouillotte + tisane (camomille) ou Djeka/Khamaré + réduire un peu sucre/ultra-transformé 2–3 jours.`;
+        } else if(lvl >= 1){
+          msg += `<br><br><b>1–4</b> : chaleur + tisane douce + note ce qui aide.`;
+        } else {
+          msg += `<br><br>Choisis un chiffre (0–10) pour noter.`;
+        }
+        msg += `<br><br><span style="color:#6b7280;font-size:12px;">(parfois il faut plusieurs cycles pour voir un vrai changement)</span>`;
+      } else {
+        msg = `💡 Choisis d’abord <b>oui</b> ou <b>non</b> pour la douleur.`;
+      }
+    }
+
+    if(t === "ovulation"){
+      msg = `💡 <b>Ovulation</b> : noter tes signes t’aide à te connaître. Si douleurs souvent : Djeka/Khamaré <b>3 jours autour de l’ovulation</b> (3 cycles).`;
+    }
+
+    if(t === "spm"){
+      msg = `💡 <b>SPM</b> : semaine avant → camomille/mélisse/verveine le soir aide souvent (stress + sommeil).`;
+    }
+
+    if(t === "plantes"){
+      msg = `💡 <b>Plantes</b> : Djeka/Khamaré = décoction <b>10 min</b> (rincer avant) + réutilisable <b>2 fois</b>. Plantes douces = infusion 5–10 min.`;
+    }
+
+    if(t === "alimentation"){
+      msg = `💡 <b>Alimentation</b> : si tu as mal, réduis juste un peu sucre + ultra-transformé 2–3 jours. Ajoute eau + repas simple.`;
+    }
+
+    if(t === "note"){
+      msg = `💡 Note ce que tu veux : sommeil, stress, douleur, ovulation…`;
+    }
+
+    adviceBox.innerHTML = msg;
+    adviceBox.style.display = "block";
+  }
+
+  // Add entry
+  addEntryBtn.addEventListener("click", ()=>{
+    const month = monthInput.value;
+    if(!month){ alert("Choisis le mois."); return; }
+    if(!entryType.value){ alert("Choisis le type d’entrée."); return; }
+    if(!entryDate.value){ alert("Choisis une date."); return; }
+
+    upsertMonth(month, readMonthFields());
+
+    const entry = {
+      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+      date: entryDate.value,
+      type: entryType.value,
+      notes: entryNotes.value.trim() || null,
+      createdAt: new Date().toISOString()
+    };
+
+    if(entry.type === "ovulation"){
+      entry.signs = getCheckedValues("ovuSigns");
+      entry.ovarySide = ovuSide.value || null;
+      entry.mucusType = mucusType.value || null;
+    }
+
+    if(entry.type === "regles"){
+      const yesNo = getRadioValue("painYesNo");
+      entry.pain = yesNo;
+      if(yesNo === "oui"){
+        entry.painWhere = getCheckedValues("painWhere");
+        entry.painLevel = Number(getRadioValue("painLevel") ?? 0);
+        entry.relief = getCheckedValues("relief");
+        entry.reliefWorked = getRadioValue("reliefWorked");
+      } else {
+        entry.painWhere = [];
+        entry.painLevel = 0;
+        entry.relief = [];
+        entry.reliefWorked = null;
+      }
+    }
+
+    if(entry.type === "spm") entry.mood = getCheckedValues("mood");
+
+    if(entry.type === "plantes"){
+      entry.plants = getCheckedValues("plants");
+      entry.plantsWorked = getRadioValue("plantsWorked");
+    }
+
+    if(entry.type === "alimentation") entry.food = getCheckedValues("food");
+
+    addEntryToMonth(month, entry);
+    alert("Entrée enregistrée ✨");
+    clearEntryFields();
+    renderMonthStatus();
+    if(typeof refreshUI === "function") refreshUI();
+  });
+
+  function clearEntryFields(){
+    entryType.value = "";
+    entryNotes.value = "";
+    entryDate.valueAsDate = new Date();
+
+    ovulationBlock.style.display = "none";
+    painBlock.style.display      = "none";
+    spmBlock.style.display       = "none";
+    plantsBlock.style.display    = "none";
+    foodBlock.style.display      = "none";
+    painDetails.style.display    = "none";
+    adviceBox.style.display      = "none";
+
+    document.querySelectorAll('input[name="ovuSigns"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="painYesNo"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="painWhere"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="painLevel"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="relief"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="reliefWorked"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="mood"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="plants"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="plantsWorked"]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[name="food"]').forEach(i=>i.checked=false);
+
+    ovuSide.value = "";
+    mucusType.value = "";
+  }
+  clearEntryBtn.addEventListener("click", clearEntryFields);
+
+  // Init base
+  renderRamadanRemaining();
+  renderMonthStatus();
+  syncMonthFieldsFromStorage();
+
+   // ----- Tabs -----
+  const tabs = Array.from(document.querySelectorAll(".tab"));
+  const tabOverview = document.getElementById("tab-overview");
+  const tabCurrent  = document.getElementById("tab-current");
+  const tabHistory  = document.getElementById("tab-history");
+
+  function setTab(name){
+    tabs.forEach(t=>{
+      const active = t.dataset.tab === name;
+      t.classList.toggle("active", active);
+    });
+    tabOverview.style.display = (name==="overview") ? "block" : "none";
+    tabCurrent.style.display  = (name==="current") ? "block" : "none";
+    tabHistory.style.display  = (name==="history") ? "block" : "none";
+  }
+  tabs.forEach(t=> t.addEventListener("click", ()=> setTab(t.dataset.tab)));
+
+  // ----- Current month display -----
+  const currentMonthBox = document.getElementById("currentMonthBox");
+  const currentEntriesList = document.getElementById("currentEntriesList");
+
+  function renderCurrentMonth(){
+    const m = getMonthObj(monthInput.value);
+    if(!m){
+      currentMonthBox.innerHTML = "Enregistre d’abord ton mois pour voir le récap ici 🙂";
+      currentEntriesList.innerHTML = "";
+      return;
+    }
+
+    const duration = daysBetween(m.startDate, m.endDate);
+    const painMonth = (m.monthPain==="oui") ? `${m.monthPainLevel}/10` : (m.monthPain==="non" ? "non" : "—");
+
+    currentMonthBox.innerHTML = `
+      <div class="meta">
+        <span class="pill">📅 ${m.month}</span>
+        <span class="pill">🩸 ${duration || 0} jours</span>
+        <span class="pill">🗂️ ${(m.entries||[]).length} entrées</span>
+      </div>
+      <div class="small"><b>Douleur règles (mois)</b> : ${painMonth}</div>
+      ${m.monthPain==="oui" ? `<div class="small">✅ Aidé par : ${(m.monthRelief||[]).join(", ") || "—"} · Efficacité : <b>${m.monthReliefWorked||"—"}</b></div>` : ""}
+      <div class="small">${m.ramadan ? `🌙 Restants Ramadan : <b>${Math.max(0, (m.ramadanTotal||0) - (m.ramadanDone||0))}</b>` : `🌙 Ramadan : non`}</div>
+    `;
+
+    const entries = (m.entries||[]).slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+
+    currentEntriesList.innerHTML = entries.map(e=>{
+      const extra = [];
+      if(e.type==="regles" && e.pain==="oui"){
+        extra.push(`Douleur: <b>${e.painLevel}/10</b>`);
+        if(e.painWhere?.length) extra.push(`Où: ${e.painWhere.join(", ")}`);
+        if(e.relief?.length) extra.push(`Testé: ${e.relief.join(", ")}`);
+        if(e.reliefWorked) extra.push(`Aidé ? <b>${escapeHtml(e.reliefWorked)}</b>`);
+      }
+      if(e.type==="ovulation"){
+        if(e.signs?.length) extra.push(`Signes: ${e.signs.join(", ")}`);
+        if(e.ovarySide) extra.push(`Côté: ${escapeHtml(e.ovarySide)}`);
+        if(e.mucusType) extra.push(`Pertes: ${escapeHtml(e.mucusType)}`);
+      }
+      if(e.type==="spm" && e.mood?.length) extra.push(`Humeur: ${e.mood.join(", ")}`);
+      if(e.type==="plantes"){
+        if(e.plants?.length) extra.push(`Pris: ${e.plants.join(", ")}`);
+        if(e.plantsWorked) extra.push(`Aidé ? <b>${escapeHtml(e.plantsWorked)}</b>`);
+      }
+      if(e.type==="alimentation" && e.food?.length) extra.push(`Alim: ${e.food.join(", ")}`);
+
+      const typeLabel = ({
+        ovulation:"Ovulation",
+        regles:"Règles (jour)",
+        spm:"SPM / humeur",
+        plantes:"Plantes / solutions",
+        alimentation:"Alimentation",
+        note:"Note"
+      }[e.type] || e.type);
+
+      return `
+        <div class="entry">
+          <div class="meta">
+            <span class="pill">${escapeHtml(e.date||"")}</span>
+            <span class="pill">${escapeHtml(typeLabel)}</span>
+            <button class="btn-ghost" type="button" data-del="${escapeHtml(e.id)}" style="padding:6px 10px;border-radius:10px;">Supprimer</button>
+          </div>
+          ${extra.length ? `<div class="small">${extra.join(" · ")}</div>` : ``}
+          ${e.notes ? `<div class="small" style="margin-top:6px;">📝 ${escapeHtml(e.notes)}</div>` : ``}
+        </div>
+      `;
+    }).join("");
+
+    // delete entry handlers
+    currentEntriesList.querySelectorAll("[data-del]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        if(!confirm("Supprimer cette entrée ?")) return;
+        deleteEntry(monthInput.value, btn.dataset.del);
+        renderCurrentMonth();
+        renderMonthStatus();
+        refreshUI();
+      });
+    });
+  }
+
+  // ----- History -----
+  const monthsList = document.getElementById("monthsList");
+  const clearAllBtn = document.getElementById("clearAllBtn");
+  const exportBtn = document.getElementById("exportBtn");
+
+  function renderHistory(){
+    const months = loadMonths().slice().sort((a,b)=> (a.month||"").localeCompare(b.month||""));
+    if(!months.length){
+      monthsList.innerHTML = `<div class="note">Pas encore de données. Ton suivi apparaîtra ici 🙂</div>`;
+      return;
+    }
+    monthsList.innerHTML = months.map(m=>{
+      const duration = daysBetween(m.startDate, m.endDate);
+      const ramRemain = m.ramadan ? Math.max(0,(m.ramadanTotal||0)-(m.ramadanDone||0)) : null;
+      const painTxt = (m.monthPain==="oui") ? `${m.monthPainLevel}/10` : (m.monthPain==="non" ? "non" : "—");
+      return `
+        <div class="entry">
+          <div class="meta">
+            <span class="pill">📅 ${escapeHtml(m.month)}</span>
+            <span class="pill">🩸 ${duration || 0} j</span>
+            <span class="pill">🗂️ ${(m.entries||[]).length} entrées</span>
+          </div>
+          <div class="small"><b>Douleur (mois)</b> : ${painTxt}</div>
+          ${m.monthPain==="oui" ? `<div class="small">Aidé ? <b>${escapeHtml(m.monthReliefWorked||"—")}</b></div>` : ``}
+          ${ramRemain!==null ? `<div class="small">🌙 Restants Ramadan : <b>${ramRemain}</b></div>` : `<div class="small">🌙 Ramadan : non</div>`}
+        </div>
+      `;
+    }).join("");
+  }
+
+  clearAllBtn.addEventListener("click", ()=>{
+    if(!confirm("Tout supprimer sur CET appareil ?")) return;
+    localStorage.removeItem(LS_KEY);
+    alert("Tout a été supprimé ✅");
+    syncMonthFieldsFromStorage();
+    refreshUI();
+  });
+
+  exportBtn.addEventListener("click", ()=>{
+    const months = loadMonths();
+    const blob = new Blob([JSON.stringify(months, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "suivi-cycle-export.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // ----- Charts -----
+  const painChartCanvas = document.getElementById("painChart");
+  const durationChartCanvas = document.getElementById("durationChart");
+  let painChart = null;
+  let durationChart = null;
+
+  function computePainByMonth(months){
+    // use month-level pain if set; otherwise average daily pains
+    return months.map(m=>{
+      let v = null;
+      if(m.monthPain==="oui") v = Number(m.monthPainLevel||0);
+      else if(m.monthPain==="non") v = 0;
+      else {
+        const regs = (m.entries||[]).filter(e=>e.type==="regles" && e.pain==="oui" && typeof e.painLevel==="number");
+        if(regs.length){
+          v = regs.reduce((s,e)=>s+Number(e.painLevel||0),0)/regs.length;
+        } else {
+          v = null;
+        }
+      }
+      return {month:m.month, value:v};
+    });
+  }
+
+  function computeDurationByMonth(months){
+    return months.map(m=>{
+      const d = daysBetween(m.startDate, m.endDate);
+      return {month:m.month, value:d || 0};
+    });
+  }
+
+  function renderCharts(){
+    const months = loadMonths().slice().sort((a,b)=> (a.month||"").localeCompare(b.month||""));
+    const pain = computePainByMonth(months);
+    const duration = computeDurationByMonth(months);
+
+    const labels = months.map(m=>m.month);
+
+    const painData = pain.map(x=> (x.value===null ? null : Number(x.value)));
+    const durationData = duration.map(x=> Number(x.value||0));
+
+    if(painChart) painChart.destroy();
+    if(durationChart) durationChart.destroy();
+
+    painChart = new Chart(painChartCanvas, {
+      type:"line",
+      data:{
+        labels,
+        datasets:[{
+          label:"Douleur (0–10)",
+          data:painData,
+          spanGaps:true,
+          tension:.25
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{ legend:{display:true} },
+        scales:{
+          y:{ min:0, max:10, ticks:{ stepSize:1 } }
+        }
+      }
+    });
+
+    durationChart = new Chart(durationChartCanvas, {
+      type:"bar",
+      data:{
+        labels,
+        datasets:[{
+          label:"Durée des règles (jours)",
+          data:durationData
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{ legend:{display:true} },
+        scales:{
+          y:{ beginAtZero:true, ticks:{ stepSize:1 } }
+        }
+      }
+    });
+  }
+
+  // ----- refreshUI global -----
+  function refreshUI(){
+    renderCurrentMonth();
+    renderHistory();
+    renderCharts();
+  }
+  window.refreshUI = refreshUI;
+
+  // Initial render + keep synced when month changes
+  monthInput.addEventListener("change", ()=>{
+    renderCurrentMonth();
+    renderCharts();
+  });
+
+  // First paint
+  refreshUI();
+  setTab("overview");
+</script>
+</body>
+    </html>   
