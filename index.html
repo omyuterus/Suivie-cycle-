@@ -67,7 +67,9 @@
       border-radius:14px;
       border:1px solid var(--border);
       font-size:14px;
+      font-family: inherit;
     }
+    textarea{min-height: 80px; resize: vertical;}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media(max-width:600px){.row{grid-template-columns:1fr}}
     button{cursor:pointer;font-weight:700;border:none;}
@@ -95,7 +97,7 @@
 <section>
   <div class="card">
     <h2>📅 Mon mois</h2>
-    <div class="note">Écoute ton corps, sans pression.</div>
+    <div class="note">Remplis ce que tu souhaites, à ton rythme.</div>
 
     <label>Mois</label>
     <input type="month" id="month">
@@ -138,12 +140,16 @@
       <label><input type="checkbox" id="ramadan"> Règles pendant le Ramadan</label>
     </div>
 
+    <label for="notes">Notes libres (facultatif)</label>
+    <textarea id="notes" placeholder="Sommeil, envies de sucre, sport, événements..."></textarea>
+
     <button class="btn-secondary" style="margin-top:15px;" onclick="saveMonth()">Enregistrer ce mois ✨</button>
   </div>
 
   <div class="card" id="recapSection" style="display:none;">
     <h2>📊 Résumé du mois</h2>
     <div id="monthRecap" class="note2"></div>
+    <div id="notesDisplay" style="font-size: 13px; color: var(--text); padding: 10px; background: #fff; border-radius: 10px; border: 1px solid var(--border); display: none; margin-top: 10px;"></div>
   </div>
 </section>
 
@@ -186,7 +192,8 @@ function saveMonth(){
     pain: document.getElementById("painScale").value,
     painWhere: painChecked,
     mood: moodChecked,
-    ramadan: document.getElementById("ramadan").checked
+    ramadan: document.getElementById("ramadan").checked,
+    notes: document.getElementById("notes").value
   };
   localStorage.setItem(LS_MONTH, JSON.stringify(data));
   renderAll();
@@ -210,8 +217,15 @@ function renderAll(){
       <span class="pill">🩸 ${days} jours</span>
       <span class="pill">⚡ Douleur : ${m.pain}/10</span>
       <span class="pill">💧 Flux ${m.flow||"—"}</span>
-      <br><small>Localisation : ${m.painWhere?.join(', ') || '—'}</small>
+      <br><small>Humeur : ${m.mood?.join(', ') || '—'}</small>
     `;
+
+    if(m.notes && m.notes.trim() !== ""){
+        document.getElementById("notesDisplay").style.display = "block";
+        document.getElementById("notesDisplay").innerHTML = "<b>Tes notes :</b><br>" + m.notes.replace(/\n/g, '<br>');
+    } else {
+        document.getElementById("notesDisplay").style.display = "none";
+    }
 
     const totalToCatch = m.ramadan ? days : 0;
     const left = Math.max(0, totalToCatch - rDone);
