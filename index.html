@@ -3,14 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mon suivi de cycle</title>
-
-  <!-- FAVICONS (tu remplaceras les fichiers par ton brandmark) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#a74d5e">
+  <title>Mon suivi de cycle 🌙</title>
 
   <style>
     :root{
@@ -28,489 +21,372 @@
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       background: radial-gradient(1200px 600px at 10% 10%, rgba(167,77,94,.10), transparent 60%),
                   radial-gradient(1000px 500px at 90% 20%, rgba(147,176,135,.14), transparent 60%),
                   var(--bg);
       color:var(--text);
+      line-height: 1.5;
     }
-    header{
-      padding:20px 16px 8px;
-      max-width:1120px;
-      margin:0 auto;
-    }
-    .title{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .badge{
-      font-size:12px;
-      padding:6px 10px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:rgba(255,255,255,.7);
-      color:var(--muted);
-    }
-    h1{margin:0;font-size:22px;letter-spacing:-.3px}
-    p.lead{margin:10px 0 0;color:var(--muted);line-height:1.45;max-width:96ch}
+    header{ padding:24px 16px; max-width:1120px; margin:0 auto; }
+    h1{ margin:0; font-size:26px; color: var(--accent3); }
+    .badge-container{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .badge{ font-size:12px; padding:6px 12px; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.7); color:var(--muted); }
+    
+    main{ max-width:1120px; margin:0 auto; padding:16px; display:grid; grid-template-columns: 1.1fr .9fr; gap:20px; }
+    @media (max-width: 1000px){ main{ grid-template-columns:1fr; } }
 
-    main{
-      max-width:1120px;
-      margin:0 auto;
-      padding:16px;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-    }
-    @media (max-width: 1000px){ main{grid-template-columns:1fr} }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:20px; }
+    .card h2{ margin:0 0 15px; font-size:18px; color:var(--accent3); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    
+    label{ font-size:14px; font-weight: 600; color:var(--text); display:block; margin-bottom:8px; margin-top:16px;}
+    input, select, textarea { width:100%; padding:12px; border:1px solid var(--border); border-radius:14px; outline:none; font-size:15px; background:#fff; transition: border 0.3s; }
+    input:focus, select:focus{ border-color: var(--accent); }
+    
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media (max-width:600px){ .row{ grid-template-columns:1fr; } }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:16px;
-    }
-    .card h2{margin:0 0 10px;font-size:16px;color:var(--accent3)}
-    .note{
-      background: rgba(147,176,135,.10);
-      border:1px dashed rgba(147,176,135,.55);
-      padding:10px 12px;
-      border-radius:14px;
-      font-size:13px;
-      line-height:1.35;
-      margin:10px 0 14px;
-    }
-    .note2{
-      background: rgba(167,77,94,.08);
-      border:1px dashed rgba(167,77,94,.35);
-      padding:10px 12px;
-      border-radius:14px;
-      font-size:13px;
-      line-height:1.35;
-      margin:10px 0 14px;
-    }
-    .muted{color:var(--muted)}
-    form{display:grid;gap:12px}
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-    input[type="text"], input[type="month"], input[type="date"], textarea, select, input[type="number"]{
-      width:100%;
-      padding:12px 12px;
-      border:1px solid var(--border);
-      border-radius:14px;
-      outline:none;
-      font-size:14px;
-      background:#fff;
-    }
-    textarea{min-height:90px;resize:vertical}
-    .row{display:grid;grid-template-columns: 1fr 1fr;gap:12px}
-    @media (max-width:650px){ .row{grid-template-columns:1fr} }
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{
-      display:flex;align-items:center;gap:8px;
-      padding:10px 12px;border:1px solid var(--border);
-      border-radius:999px;background: rgba(255,255,255,.85);
-      cursor:pointer;user-select:none;font-size:13px;color:var(--text);
-    }
-    .chip input{ accent-color: var(--accent); }
-    .scale{
-      display:grid;
-      grid-template-columns: repeat(11, 1fr);
-      gap:6px;align-items:center;
-    }
-    .scale input{
-      width:100%;height:42px;border-radius:14px;border:1px solid var(--border);
-      appearance:none;background:#fff;cursor:pointer;
-    }
-    .scale input:checked{
-      border:2px solid var(--accent);
-      box-shadow: 0 0 0 4px rgba(167,77,94,.12);
-    }
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-    button{
-      border:none;padding:12px 14px;border-radius:14px;cursor:pointer;
-      font-weight:800;font-size:14px;
-    }
-    .btn-primary{background:var(--accent);color:#fff}
-    .btn-secondary{background:rgba(147,176,135,.18);color:var(--accent3)}
-    .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
-    .btn-danger{background:rgba(167,77,94,.12);border:1px solid rgba(167,77,94,.25);color:var(--accent3)}
-    .small{font-size:12px;color:var(--muted);line-height:1.35;margin:8px 0 0}
-    .tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-    .tab{
-      padding:10px 12px;border-radius:999px;border:1px solid var(--border);
-      background:#fff;cursor:pointer;font-size:13px;color:var(--muted);
-    }
-    .tab.active{
-      color:var(--accent3);
-      border-color: rgba(167,77,94,.35);
-      box-shadow: 0 0 0 4px rgba(167,77,94,.10);
-    }
-    .list{display:grid;gap:10px}
-    .entry{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      background: rgba(251,247,244,.55);
-    }
-    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;color:var(--muted);font-size:12px}
-    .pill{padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:#fff}
-    .strong{font-weight:900;color:var(--accent3)}
-    .divider{height:1px;background:rgba(234,223,215,.8);margin:12px 0}
-    canvas{ width:100% !important; height:260px !important; }
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;}
+    .chip{ display:flex; align-items:center; gap:8px; padding:10px 16px; border:1px solid var(--border); border-radius:999px; background:#fff; cursor:pointer; font-size:14px; transition: 0.2s; }
+    .chip:hover{ background: var(--bg); }
+    .chip input{ width:auto; accent-color: var(--accent); margin:0;}
 
-    /* Discreet mode */
-    #discreetOverlay{
-      position:fixed; inset:0;
-      background: linear-gradient(135deg, rgba(36,65,53,.92), rgba(167,77,94,.88));
-      display:none;
-      z-index:9999;
-      color:#fff;
-      padding:22px;
-    }
-    #discreetOverlay .box{
-      max-width:520px;
-      margin:12vh auto 0;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.22);
-      border-radius:22px;
-      padding:18px;
-    }
-    #discreetOverlay h3{margin:0 0 8px;font-size:18px}
-    #discreetOverlay p{margin:0;color:rgba(255,255,255,.92);line-height:1.4}
-    #discreetOverlay button{
-      margin-top:14px;
-      background:#fff;
-      color:#111827;
-      border:none;
-      padding:12px 14px;
-      border-radius:14px;
-      font-weight:900;
-      cursor:pointer;
-      width:auto;
-    }
+    .scale-container{ margin-top: 10px; }
+    .scale{ display:grid; grid-template-columns: repeat(11, 1fr); gap:4px; }
+    .scale input{ appearance:none; height:40px; border:1px solid var(--border); border-radius:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding: 0;}
+    .scale input:checked{ border:2px solid var(--accent); background:rgba(167,77,94,0.1); font-weight: bold; }
+    .scale input::before{ content: attr(title); font-size:12px; }
+
+    button{ border:none; padding:14px 20px; border-radius:14px; cursor:pointer; font-weight:800; font-size:15px; transition: all 0.2s; width: 100%; }
+    .btn-primary{ background:var(--accent); color:#fff; box-shadow: 0 4px 12px rgba(167,77,94,0.2); }
+    .btn-primary:hover{ opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary{ background:rgba(147,176,135,0.2); color:var(--accent3); margin-top: 10px; }
+    .btn-ghost{ background:transparent; border:1px solid var(--border); color:var(--muted); margin-top: 10px;}
+
+    .note{ background: rgba(147,176,135,.12); border:1px dashed var(--accent2); padding:12px; border-radius:14px; font-size:13px; margin:12px 0; color: var(--accent3); }
+    .note2{ background: rgba(167,77,94,.08); border:1px dashed var(--accent); padding:12px; border-radius:14px; font-size:13px; margin:12px 0; }
+    
+    .pill{ padding:5px 12px; border-radius:999px; border:1px solid var(--border); background:#fff; font-size:12px; display:inline-block; margin:3px; font-weight: 500;}
+    .entry-item{ border:1px solid var(--border); border-radius:18px; padding:16px; background:rgba(255,255,255,0.5); margin-bottom:12px; position: relative;}
+    .strong{ font-weight:800; color:var(--accent3); }
+    
+    .tabs{ display:flex; gap:10px; margin-bottom:20px; overflow-x: auto; padding-bottom: 5px; }
+    .tab{ padding:10px 18px; border-radius:999px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:14px; white-space: nowrap; color:var(--muted); flex-shrink: 0; }
+    .tab.active{ color:var(--accent3); border-color: var(--accent); background: rgba(167,77,94,0.05); font-weight: 600; }
+    
+    canvas{ width:100% !important; max-height:280px; margin-top: 10px;}
   </style>
 </head>
 
 <body>
-<div id="discreetOverlay">
-  <div class="box">
-    <h3>Mode discret 🙈</h3>
-    <p>Tout est masqué. Tu peux revenir quand tu veux.</p>
-    <button id="discreetBackBtn" type="button">Réafficher</button>
-  </div>
-</div>
 
 <header>
-  <div class="title">
-    <h1>Mon suivi de cycle 🌙</h1>
-    <span class="badge">Confidentiel · enregistré sur TON appareil</span>
-    <span class="badge">Tu peux modifier ton mois à tout moment</span>
-    <span class="badge">Conseils + graphiques</span>
+  <h1>Mon suivi de cycle 🌙</h1>
+  <div class="badge-container">
+    <span class="badge">Anonyme & Personnel</span>
+    <span class="badge">Données stockées sur ton téléphone</span>
+    <span class="badge">Expert Naturo</span>
   </div>
-  <p class="lead">
-    Tu notes ce que tu veux, quand tu veux. Objectif : comprendre ton corps (sans te prendre la tête).
-  </p>
 </header>
 
 <main>
-  <!-- LEFT -->
-  <section class="card">
-    <h2>📌 Mois + Entrées</h2>
-
-    <div class="note">
-      ✅ Tu peux faire plusieurs “entrées” dans le mois (ovulation, douleur, plantes, humeur…).<br>
-      ✅ Tout reste sur l’appareil. Personne ne voit.
-    </div>
-
-    <div class="actions" style="margin-bottom:10px;">
-      <button class="btn-ghost" type="button" id="discreetBtn">🙈 Mode discret</button>
-    </div>
-
-    <form id="monthForm">
+  <section>
+    <div class="card">
+      <h2>📅 Configuration du mois</h2>
       <div class="row">
-        <div>
-          <label for="month">Mois</label>
-          <input id="month" type="month" required />
-        </div>
-        <div>
-          <label for="nickname">Prénom / pseudo (facultatif)</label>
-          <input id="nickname" type="text" placeholder="ex : Lina / Lili / 🌸" />
-        </div>
+        <div><label>Mois en cours</label><input type="month" id="mainMonth"></div>
+        <div><label>Prénom / Pseudo</label><input type="text" id="nickname" placeholder="Lili, 🌸..."></div>
       </div>
-
       <div class="row">
-        <div>
-          <label for="startDate">Début des règles</label>
-          <input id="startDate" type="date" />
-        </div>
-        <div>
-          <label for="endDate">Fin des règles</label>
-          <input id="endDate" type="date" />
-        </div>
+        <div><label>Début des règles</label><input type="date" id="startDate"></div>
+        <div><label>Fin des règles</label><input type="date" id="endDate"></div>
       </div>
-
-      <!-- RAMADAN (manuel, même si elle arrive après Ramadan) -->
+      
       <div class="note2">
-        <div class="strong">🌙 Ramadan (manuel, pour que ça marche même après)</div>
-        <div class="small muted">Si tu as un total à rattraper, tu peux l’écrire ici + noter au fur et à mesure ce que tu as déjà rattrapé.</div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label class="chip" style="justify-content:center; width:100%;">
-            <input type="checkbox" id="ramadan" />
-            J’ai des jours à rattraper (Ramadan)
-          </label>
-        </div>
-        <div>
-          <label for="ramadanTotal">Total de jours à rattraper (manuel)</label>
-          <input id="ramadanTotal" type="number" min="0" step="1" placeholder="ex : 6" />
+        <label style="margin:0; cursor:pointer; display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="ramadanMode" style="width:auto; margin:0;"> 🌙 Suivi Ramadan (jours à rattraper)
+        </label>
+        <div id="ramadanFields" style="display:none; margin-top:15px;">
+            <div class="row">
+                <div><label>Total à rattraper</label><input type="number" id="ramTotal" placeholder="Ex: 7"></div>
+                <div><label>Déjà rattrapés</label><input type="number" id="ramDone" placeholder="Ex: 2"></div>
+            </div>
         </div>
       </div>
+      <button class="btn-secondary" onclick="saveMonthInfo()">Enregistrer les infos du mois</button>
+    </div>
 
-      <div class="row">
-        <div>
-          <label for="ramadanDone">Jours déjà rattrapés (manuel)</label>
-          <input id="ramadanDone" type="number" min="0" step="1" placeholder="ex : 2" />
-        </div>
-        <div>
-          <label>Jours restants</label>
-          <input id="ramadanRemaining" type="text" disabled />
-        </div>
+    <div class="card">
+      <h2>➕ Ajouter une note du jour</h2>
+      <label>Date du jour</label>
+      <input type="date" id="entryDate">
+
+      <label>Comment te sens-tu ? (humeur / énergie)</label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="mood" value="Calme"> 🙂 Calme</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Stressée"> 😵 Stressée</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Fatiguée"> 😴 Fatiguée</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Irritable"> 😤 Irritable</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Sensible"> 🥺 Sensible</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Envie de sucre"> 🍫 Envie de sucre</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Ballonnée"> 🎈 Ballonnée</label>
       </div>
 
-      <div class="note2" id="monthStatusBox"></div>
+      <label>As-tu des douleurs aujourd'hui ?</label>
+      <select id="hasPain" onchange="togglePainFields()">
+        <option value="non">Non, tout va bien</option>
+        <option value="oui">Oui, j'ai mal</option>
+      </select>
 
-      <div class="actions">
-        <button class="btn-secondary" type="button" id="saveMonthBtn">Enregistrer / mettre à jour le mois</button>
-        <button class="btn-ghost" type="button" id="exportMonthBtn">📄 Export résumé (texte)</button>
-      </div>
-
-      <div class="divider"></div>
-
-      <h2 style="margin-top:0;">➕ Ajouter une entrée</h2>
-      <div class="note">
-        Une entrée = un mini pointage. Tu peux en faire autant que tu veux.
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="entryDate">Date</label>
-          <input id="entryDate" type="date" required />
-        </div>
-        <div>
-          <label for="entryType">Type</label>
-          <select id="entryType" required>
-            <option value="" selected disabled>Choisir…</option>
-            <option value="ovulation">Ovulation / signes</option>
-            <option value="regles">Règles / douleur</option>
-            <option value="spm">SPM / humeur / stress</option>
-            <option value="plantes">Plantes prises</option>
-            <option value="alimentation">Alimentation (simple)</option>
-            <option value="note">Note libre</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- OVULATION -->
-      <div id="ovulationBlock" style="display:none;">
-        <label>Ovulation : signes</label>
+      <div id="painFields" style="display:none;">
+        <label>Où se situe la douleur ?</label>
         <div class="chips">
-          <label class="chip"><input type="checkbox" name="ovuSigns" value="Tiraillement ovaire"> Tiraillement ovaire</label>
-          <label class="chip"><input type="checkbox" name="ovuSigns" value="Pertes plus gluantes"> Pertes plus gluantes</label>
-          <label class="chip"><input type="checkbox" name="ovuSigns" value="Pertes plus abondantes"> Pertes plus abondantes</label>
-          <label class="chip"><input type="checkbox" name="ovuSigns" value="Énergie différente"> Énergie différente</label>
+          <label class="chip"><input type="checkbox" name="where" value="Bas-ventre"> Bas-ventre</label>
+          <label class="chip"><input type="checkbox" name="where" value="Dos / Reins"> Dos / Reins</label>
+          <label class="chip"><input type="checkbox" name="where" value="Seins"> Seins</label>
+          <label class="chip"><input type="checkbox" name="where" value="Tête"> Tête</label>
         </div>
-
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label>Si tiraillement : côté ?</label>
-            <select id="ovuSide">
-              <option value="" selected>Je ne sais pas / pas ressenti</option>
-              <option value="gauche">Gauche</option>
-              <option value="droite">Droite</option>
-            </select>
-          </div>
-          <div>
-            <label>Pertes : aspect</label>
-            <select id="mucusType">
-              <option value="" selected>Je ne sais pas</option>
-              <option value="crémeux">Crémeux / blanc</option>
-              <option value="gluant">Gluant / “blanc d’œuf”</option>
-              <option value="aqueux">Aqueux</option>
-              <option value="sec">Sec / peu</option>
-            </select>
-          </div>
-        </div>
+        <label>Intensité (0 = rien, 10 = très fort)</label>
+        <div class="scale" id="painScale"></div>
       </div>
 
-      <!-- REGLES / DOULEUR -->
-      <div id="painBlock" style="display:none;">
-        <label>Douleur : où ?</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="painWhere" value="Bas-ventre"> Bas-ventre</label>
-          <label class="chip"><input type="checkbox" name="painWhere" value="Dos / reins"> Dos / reins</label>
-          <label class="chip"><input type="checkbox" name="painWhere" value="Entre les jambes"> Entre les jambes</label>
-          <label class="chip"><input type="checkbox" name="painWhere" value="Autre"> Autre</label>
-        </div>
-
-        <div style="margin-top:10px;">
-          <label>Intensité (0–10)</label>
-          <div class="scale" id="painScale"></div>
-        </div>
+      <label>Qu'as-tu utilisé pour te soulager ?</label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="took" value="Bouillotte"> 🔥 Bouillotte</label>
+        <label class="chip"><input type="checkbox" name="took" value="Djeka / Khamaré"> 🫖 Djeka / Khamaré</label>
+        <label class="chip"><input type="checkbox" name="took" value="Tisane Camomille/Mélisse"> 🌼 Tisane douce</label>
+        <label class="chip"><input type="checkbox" name="took" value="Médicament"> 💊 Médicament</label>
+        <label class="chip"><input type="checkbox" name="took" value="Repos / Sieste"> 😴 Repos</label>
+        <label class="chip"><input type="checkbox" name="took" value="Rien"> 🤍 Rien</label>
       </div>
 
-      <!-- SPM -->
-      <div id="spmBlock" style="display:none;">
-        <label>SPM / humeur</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="mood" value="Calme"> 🙂 Calme</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Stressée"> 😵 Stressée</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Fatiguée"> 😴 Fatiguée</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Irritable"> 😤 Irritable</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Sensible"> 🥺 Sensible</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Envie de sucre"> 🍫 Envie de sucre</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Ballonnements"> 🎈 Ballonnements</label>
-          <label class="chip"><input type="checkbox" name="mood" value="Maux de tête"> 🤕 Maux de tête</label>
-        </div>
-      </div>
+      <label>Est-ce que cela t'a aidée ?</label>
+      <select id="wasHelpful">
+        <option value="">Choisir...</option>
+        <option value="Oui beaucoup">Oui beaucoup</option>
+        <option value="Un peu">Un peu</option>
+        <option value="Pas vraiment">Pas vraiment</option>
+      </select>
 
-      <!-- PLANTES -->
-      <div id="plantsBlock" style="display:none;">
-        <label>Qu’as-tu pris aujourd’hui ?</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="plants" value="Camomille"> 🌼 Camomille</label>
-          <label class="chip"><input type="checkbox" name="plants" value="Mélisse"> 🍃 Mélisse</label>
-          <label class="chip"><input type="checkbox" name="plants" value="Verveine"> 🌿 Verveine</label>
-          <label class="chip"><input type="checkbox" name="plants" value="Djeka"> 🫖 Djeka</label>
-          <label class="chip"><input type="checkbox" name="plants" value="Khamaré"> 🫖 Khamaré</label>
-        </div>
+      <label>Notes libres (facultatif)</label>
+      <textarea id="dailyNotes" placeholder="Sommeil, alimentation, sport, ou juste ce que tu as sur le coeur..."></textarea>
 
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label>Combien de tasses ?</label>
-            <select id="cups">
-              <option value="0" selected>0</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-          <div>
-            <label>Moment</label>
-            <select id="whenCups">
-              <option value="" selected>—</option>
-              <option value="matin">Matin</option>
-              <option value="après-midi">Après-midi</option>
-              <option value="soir">Soir</option>
-              <option value="dès la douleur">Dès la douleur</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- ALIMENTATION -->
-      <div id="foodBlock" style="display:none;">
-        <label>Alimentation (simple, sans jugement)</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="food" value="J’ai bu de l’eau"> 💧 J’ai bu de l’eau</label>
-          <label class="chip"><input type="checkbox" name="food" value="J’ai mangé maison"> 🍲 Plutôt maison</label>
-          <label class="chip"><input type="checkbox" name="food" value="Fast-food / ultra transformé"> 🍟 Fast-food / ultra transformé</label>
-          <label class="chip"><input type="checkbox" name="food" value="Beaucoup de sucre"> 🍫 Beaucoup de sucre</label>
-          <label class="chip"><input type="checkbox" name="food" value="Fruits / légumes"> 🍎 Fruits / légumes</label>
-        </div>
-      </div>
-
-      <!-- CONSEIL DYNAMIQUE -->
-      <div class="note2" id="adviceBox" style="display:none;"></div>
-
-      <div>
-        <label for="entryNotes">Note (facultatif)</label>
-        <textarea id="entryNotes" placeholder="ex : douleur 7/10 + dos / j’ai pris djeka / journée stressante…"></textarea>
-      </div>
-
-      <div class="actions">
-        <button class="btn-primary" type="button" id="addEntryBtn">Enregistrer cette entrée ✨</button>
-        <button class="btn-ghost" type="button" id="clearEntryBtn">Vider l’entrée</button>
-      </div>
-
-      <p class="small">
-        ⚠️ Si douleur très forte, malaise, vomissements, règles très abondantes → parle à un adulte et consulte.
-      </p>
-    </form>
+      <button class="btn-primary" style="margin-top:20px;" onclick="addEntry()">Enregistrer ma note du jour ✨</button>
+    </div>
   </section>
 
-  <!-- RIGHT -->
-  <aside class="card">
-    <h2>🧰 Mes solutions (toujours au même endroit)</h2>
-
-    <div class="note">
-      <div class="strong">Quand j’ai mal tout de suite :</div>
-      • Bouillotte / chaleur bas-ventre ou bas du dos<br>
-      • Positions : sur le côté genoux repliés / recroquevillée<br>
-      • Respiration lente 2–3 minutes<br>
-      • Repos + eau<br>
+  <aside>
+    <div class="card">
+      <h2>🌿 Solutions Naturelles</h2>
+      <div class="note"><b>Douleur immédiate :</b> Chaleur (bouillotte), positions fœtales et respiration ventrale lente.</div>
+      <div class="note2"><b>Djeka / Khamaré :</b> Idéal en infusion chaude. Aide à apaiser les contractions utérines.</div>
+      <div class="note"><b>Tisanes :</b> Mélisse pour le stress, Camomille pour les spasmes, Verveine pour la digestion.</div>
     </div>
 
-    <div class="note2">
-      <div class="strong">Plantes douces (semaine AVANT les règles, stress/SPM) :</div>
-      <b>Camomille / Mélisse / Verveine</b><br>
-      • Infusion 5–10 min<br>
-      • 1 tasse le soir (ou 1–2 tasses/jour si besoin)<br>
-      • Magasin bio / herboristerie<br>
-    </div>
-
-    <div class="note">
-      <div class="strong">Djeka & Khamaré (prévention + instant T) :</div>
-      <b>Préparation</b> : rincer → casserole d’eau → <b>bouillir 10 min</b> → filtrer → boire chaud ou refroidir.<br>
-      <b>Réutilisable</b> : mêmes plantes jusqu’à <b>2 fois</b> (2 décoctions max).<br><br>
-      <b>Prévention</b> : 1 tasse/jour pendant <b>3 jours autour de l’ovulation</b>, à répéter <b>3 cycles</b>, puis pause pour voir si la douleur revient.<br>
-      <b>Pendant les règles</b> : 1 tasse dès que la douleur arrive → soulagement souvent rapide sur le moment.<br>
-    </div>
-
-    <div class="note2">
-      <div class="strong">Alimentation “anti-douleur” (sans privation) :</div>
-      • Si tu as mal : essaye de réduire (un peu) <b>trop de sucre + ultra-transformé</b> quelques jours.<br>
-      • Ajoute : <b>eau</b> + repas simple (riz/pâtes + légumes + protéines) + fruits.<br>
-      • Oui tu peux manger un tacos 😄 mais ton corps dit merci quand tu équilibres.
-    </div>
-
-    <div class="divider"></div>
-
-    <h2>📊 Récap & Graphiques</h2>
-    <div class="tabs">
-      <button class="tab active" data-tab="overview" type="button">Graphiques</button>
-      <button class="tab" data-tab="current" type="button">Mois</button>
-      <button class="tab" data-tab="history" type="button">Historique</button>
-    </div>
-
-    <div id="tab-overview">
-      <canvas id="painChart"></canvas>
-      <div style="height:10px"></div>
-      <canvas id="durationChart"></canvas>
-    </div>
-
-    <div id="tab-current" style="display:none;">
-      <div id="currentMonthBox" class="note"></div>
-      <div class="list" id="currentEntriesList"></div>
-    </div>
-
-    <div id="tab-history" style="display:none;">
-      <div class="actions" style="margin-bottom:10px;">
-        <button class="btn-danger" type="button" id="clearAllBtn">Tout supprimer (cet appareil)</button>
-        <button class="btn-ghost" type="button" id="exportBtn">Exporter (JSON)</button>
+    <div class="card">
+      <h2>📊 Mon Récapitulatif</h2>
+      <div class="tabs">
+        <button class="tab active" data-tab="entries" onclick="switchTab('entries')">Notes du mois</button>
+        <button class="tab" data-tab="charts" onclick="switchTab('charts')">Graphiques</button>
       </div>
-      <div class="list" id="monthsList"></div>
+
+      <div id="view-entries">
+        <div id="ramadanStatus" class="note" style="display:none;"></div>
+        <div id="entriesList"></div>
+      </div>
+
+      <div id="view-charts" style="display:none;">
+        <canvas id="painChart"></canvas>
+        <div style="height:20px"></div>
+        <canvas id="durationChart"></canvas>
+      </div>
+
+      <div class="divider" style="height: 1px; background: var(--border); margin: 20px 0;"></div>
+      <button class="btn-ghost" onclick="exportData()">Exporter mes données (JSON)</button>
+      <button class="btn-ghost" style="color:#dc2626; border-color:#fee2e2;" onclick="clearAll()">Vider l'historique</button>
     </div>
   </aside>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-  // ===== Data model =====
-  // months: [{month, nickname, startDate, endDate, ramadan(bool), ramadanTotal, ramadanDone, entries:[...]}]
-  const LS_KEY = "cycle_months_final_v1";
+const LS_KEY = "cycle_data_full_expert";
 
-  function loadMonths(){
-    try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
-    catch { return []; }
-  }
-  function saveMonths(months){
-    localStorage.setItem(LS_KEY, JSON.stringif
+// --- INITIALISATION ---
+const scaleDiv = document.getElementById("painScale");
+for(let i=0; i<=10; i++){
+    scaleDiv.innerHTML += `<input type="radio" name="pLevel" value="${i}" title="${i}" ${i===0?'checked':''}>`;
+}
+
+function togglePainFields() {
+    document.getElementById("painFields").style.display = document.getElementById("hasPain").value === 'oui' ? 'block' : 'none';
+}
+
+document.getElementById("ramadanMode").onchange = function() {
+    document.getElementById("ramadanFields").style.display = this.checked ? 'block' : 'none';
+};
+
+// --- DATA ---
+function getData() { return JSON.parse(localStorage.getItem(LS_KEY) || '{"months":{}}'); }
+
+function saveMonthInfo() {
+    const data = getData();
+    const m = document.getElementById("mainMonth").value;
+    if(!m) return alert("Indique le mois d'abord !");
+    
+    data.months[m] = data.months[m] || { entries: [] };
+    data.months[m].info = {
+        start: document.getElementById("startDate").value,
+        end: document.getElementById("endDate").value,
+        nickname: document.getElementById("nickname").value,
+        ramActive: document.getElementById("ramadanMode").checked,
+        ramTotal: document.getElementById("ramTotal").value,
+        ramDone: document.getElementById("ramDone").value
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    render();
+    alert("Informations du mois mises à jour !");
+}
+
+function addEntry() {
+    const data = getData();
+    const m = document.getElementById("mainMonth").value;
+    if(!m) return alert("Choisis le mois en haut de la page avant d'ajouter une note.");
+
+    const entry = {
+        id: Date.now(),
+        date: document.getElementById("entryDate").value,
+        moods: Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e => e.value),
+        hasPain: document.getElementById("hasPain").value,
+        painLevel: parseInt(document.querySelector('input[name="pLevel"]:checked').value),
+        painWhere: Array.from(document.querySelectorAll('input[name="where"]:checked')).map(e => e.value),
+        took: Array.from(document.querySelectorAll('input[name="took"]:checked')).map(e => e.value),
+        helpful: document.getElementById("wasHelpful").value,
+        notes: document.getElementById("dailyNotes").value
+    };
+
+    data.months[m] = data.months[m] || { entries: [] };
+    data.months[m].entries.push(entry);
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    
+    // Reset fields
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => { if(!["ramadanMode"].includes(c.id)) c.checked = false; });
+    document.getElementById("dailyNotes").value = "";
+    document.getElementById("hasPain").value = "non";
+    togglePainFields();
+    
+    render();
+    alert("Note du jour enregistrée ! ✨");
+}
+
+// --- AFFICHAGE & CHARTS ---
+let painChart, durationChart;
+
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+    document.getElementById('view-entries').style.display = tab === 'entries' ? 'block' : 'none';
+    document.getElementById('view-charts').style.display = tab === 'charts' ? 'block' : 'none';
+    if(tab === 'charts') buildCharts();
+}
+
+function render() {
+    const data = getData();
+    const m = document.getElementById("mainMonth").value;
+    const list = document.getElementById("entriesList");
+    const ramBox = document.getElementById("ramadanStatus");
+    list.innerHTML = "";
+    
+    if(!data.months[m]) {
+        list.innerHTML = "<p style='font-size:13px; color:gray; text-align:center;'>Aucune note pour ce mois encore.</p>";
+        ramBox.style.display = "none";
+        return;
+    }
+
+    const info = data.months[m].info;
+    if(info && info.ramActive) {
+        ramBox.style.display = "block";
+        const reste = (parseInt(info.ramTotal) || 0) - (parseInt(info.ramDone) || 0);
+        ramBox.innerHTML = `🌙 <b>Rattrapage Ramadan :</b> ${info.ramDone || 0} jours faits sur ${info.ramTotal || 0}. <br><b>Reste à faire : ${reste > 0 ? reste : 0} jours.</b>`;
+    } else { ramBox.style.display = "none"; }
+
+    const entries = data.months[m].entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+    entries.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "entry-item";
+        div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span class="strong">📅 ${e.date}</span>
+                <button onclick="deleteEntry('${m}', ${e.id})" style="width:auto; background:none; color:#a74d5e; padding:0; font-size:12px;">Supprimer</button>
+            </div>
+            <div style="margin-bottom:8px;">
+                ${e.moods.map(mo => `<span class="pill">${mo}</span>`).join('')}
+            </div>
+            ${e.hasPain === 'oui' ? `<div style="font-size:13px; margin-bottom:4px;">🔥 Douleur : <b>${e.painLevel}/10</b> (${e.painWhere.join(', ')})</div>` : ''}
+            <div style="font-size:13px; color:var(--muted);">🌿 Solutions : ${e.took.join(', ') || 'Aucune'}</div>
+            ${e.notes ? `<div class="note2" style="margin-top:8px;"><b>Note :</b> ${e.notes}</div>` : ''}
+        `;
+        list.appendChild(div);
+    });
+}
+
+function buildCharts() {
+    const data = getData();
+    const months = Object.keys(data.months).sort();
+    const painLevels = months.map(m => {
+        const entries = data.months[m].entries;
+        if(entries.length === 0) return 0;
+        const sum = entries.reduce((acc, curr) => acc + (curr.painLevel || 0), 0);
+        return sum / entries.length;
+    });
+    const durations = months.map(m => {
+        const info = data.months[m].info;
+        if(!info || !info.start || !info.end) return 0;
+        return (new Date(info.end) - new Date(info.start)) / (1000*60*60*24) + 1;
+    });
+
+    if(painChart) painChart.destroy();
+    if(durationChart) durationChart.destroy();
+
+    painChart = new Chart(document.getElementById("painChart"), {
+        type: 'line',
+        data: { labels: months, datasets: [{ label: 'Douleur Moyenne', data: painLevels, borderColor: '#a74d5e', tension: 0.3 }] },
+        options: { scales: { y: { min: 0, max: 10 } } }
+    });
+
+    durationChart = new Chart(document.getElementById("durationChart"), {
+        type: 'bar',
+        data: { labels: months, datasets: [{ label: 'Durée des règles (jours)', data: durations, backgroundColor: '#93b087' }] }
+    });
+}
+
+function deleteEntry(month, id) {
+    if(!confirm("Supprimer cette note ?")) return;
+    const data = getData();
+    data.months[month].entries = data.months[month].entries.filter(e => e.id !== id);
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    render();
+}
+
+function clearAll() { if(confirm("Supprimer TOUT l'historique ?")) { localStorage.clear(); location.reload(); } }
+
+function exportData() {
+    const data = localStorage.getItem(LS_KEY);
+    const blob = new Blob([data], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mon-suivi-cycle-export.json";
+    a.click();
+}
+
+// Initialisation au chargement
+const d = new Date();
+document.getElementById("mainMonth").value = d.toISOString().slice(0,7);
+document.getElementById("entryDate").value = d.toISOString().slice(0,10);
+render();
+document.getElementById("mainMonth").onchange = render;
+</script>
+
+</body>
+</html>
