@@ -21,10 +21,13 @@
     @media (max-width: 1000px){ main{ grid-template-columns:1fr; } }
     .card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:16px; }
     .card h2{ margin-top:0; color:var(--dark); font-size:18px; border-bottom:1px solid var(--border); padding-bottom:8px;}
-    .note{ background: rgba(147,176,135,.10); border:1px dashed var(--green); padding:12px; border-radius:14px; font-size:13px; margin:10px 0; }
-    .note2{ background: rgba(167,77,94,.08); border:1px dashed var(--accent); padding:12px; border-radius:14px; font-size:13px; margin:10px 0; }
     
-    #magicAdvice{ background: #fff9db; border: 2px solid #fab005; padding:15px; border-radius:14px; font-size:14px; display:none; margin-bottom:15px; animation: fadeIn 0.5s; }
+    .bloc-naturo { border-radius: 15px; padding: 15px; font-size: 13px; margin-bottom: 15px; border: 1px dashed transparent; }
+    .bloc-green { background: rgba(147,176,135,0.1); border-color: var(--green); }
+    .bloc-pink { background: rgba(167,77,94,0.06); border-color: var(--accent); }
+    .bloc-title { font-weight: 800; color: var(--dark); margin-bottom: 5px; display: block; font-size: 14px; }
+
+    #magicAdvice{ background: #fff9db; border: 2px solid #fab005; padding:15px; border-radius:14px; font-size:13px; display:none; margin-bottom:15px; animation: fadeIn 0.5s; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     label{ font-size:13px; color:var(--muted); display:block; margin-bottom:5px; font-weight: bold; margin-top:15px; }
@@ -36,28 +39,28 @@
     .scale input{ appearance:none; height:35px; border:1px solid var(--border); border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .scale input:checked{ border:2px solid var(--accent); background: rgba(167,77,94,.1); }
     .scale input::before{ content: attr(title); font-size:11px; }
-    button{ border:none; padding:12px 14px; border-radius:14px; cursor:pointer; font-weight:800; font-size:14px; transition:0.2s; }
-    .btn-primary{ background:var(--accent); color:#fff; width: 100%; }
-    .btn-secondary{ background:rgba(147,176,135,.2); color:var(--dark); margin-top:5px; width:100%; }
-    .btn-sos{ background:#e03131; color:#fff; margin-bottom: 10px; }
-    .entry{ border:1px solid var(--border); border-radius:15px; padding:15px; margin-bottom:12px; background: rgba(255,255,255,0.5); border-left: 4px solid var(--green); }
     
+    button{ border:none; padding:12px 14px; border-radius:14px; cursor:pointer; font-weight:800; font-size:14px; }
+    .btn-sos{ background:#e03131; color:#fff; width:100%; margin-bottom:15px; box-shadow: 0 4px 0 #c02424; }
+    .btn-sos:active{ transform: translateY(2px); box-shadow: none; }
+    .btn-primary{ background:var(--accent); color:#fff; width: 100%; }
+    .btn-secondary{ background:rgba(147,176,135,.2); color:var(--dark); width:100%; }
     .tabs { display: flex; gap: 10px; margin-bottom: 15px; }
     .tab { padding: 10px 20px; border-radius: 999px; border: 1px solid var(--border); background: #fff; cursor: pointer; font-size: 14px; }
     .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .entry{ border:1px solid var(--border); border-radius:15px; padding:12px; margin-bottom:10px; background: rgba(255,255,255,0.5); }
   </style>
 </head>
 <body>
 
 <header>
   <h1>Mon suivi de cycle Expert 🌙</h1>
-  <p style="color:var(--muted); font-size:14px;">Ta santé, tes hormones, ta sérénité.</p>
 </header>
 
 <main>
   <section>
     <div class="card">
-      <h2>📅 Mois & Ramadan</h2>
+      <h2>📅 Mois & Configuration</h2>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div><label>Mois</label><input type="month" id="mainMonth" onchange="render()"></div>
         <div><label>Pseudo</label><input type="text" id="nickname" placeholder="🌸"></div>
@@ -66,39 +69,35 @@
         <div><label>Début règles</label><input type="date" id="startDate"></div>
         <div><label>Fin règles</label><input type="date" id="endDate"></div>
       </div>
-      <label>Flux global</label>
+      <label>Flux global du mois</label>
       <select id="mainFlow">
-        <option value="1">Léger</option>
-        <option value="2">Moyen</option>
-        <option value="3">Abondant</option>
-        <option value="4">Hémorragique ⚠️</option>
+        <option value="1">Léger</option><option value="2">Moyen</option><option value="3">Abondant</option><option value="4">Hémorragique</option>
       </select>
-      <div class="note2">
+      <div class="bloc-pink">
         <label><input type="checkbox" id="ramadanMode" style="width:auto;"> Suivi Ramadan (jours à rattraper)</label>
         <div id="ramadanFields" style="display:none; margin-top:10px;">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div><label>À rattraper</label><input type="number" id="ramTotal"></div>
+            <div><label>Total</label><input type="number" id="ramTotal"></div>
             <div><label>Faits</label><input type="number" id="ramDone"></div>
           </div>
         </div>
       </div>
-      <button class="btn-secondary" onclick="saveMonth()">Sauvegarder le mois</button>
+      <button class="btn-secondary" onclick="saveMonth()">Enregistrer le mois</button>
     </div>
 
     <div class="card">
-      <button class="btn-sos" onclick="alert('⚡ GESTES SOS DOULEUR :\n1. Bouillotte chaude sur le ventre\n2. Respiration ventrale (5 min)\n3. Tisane de Djeka ou Camomille\n4. Allonge-toi sur le côté, genoux repliés.')">🚨 SOS Douleur Forte</button>
+      <button class="btn-sos" onclick="triggerSOS()">🚨 J'AI MAL MAINTENANT</button>
       
       <h2>➕ Ma note du jour</h2>
       <label>Date</label><input type="date" id="entryDate">
       
       <label>Ressentis & Peau</label>
       <div class="chips">
-        <label class="chip"><input type="checkbox" name="mood" value="Calme" onchange="giveAdvice()"> 🙂 Calme</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Stressée" onchange="giveAdvice()"> 😵 Stressée</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Fatiguée" onchange="giveAdvice()"> 😴 Fatiguée</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Maux de tête" onchange="giveAdvice()"> 🤕 Tête</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Acné" onchange="giveAdvice()"> 🔴 Acné / Peau</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Sucre" onchange="giveAdvice()"> 🍫 Sucre</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Calme" onchange="giveAdvice()">🙂 Calme</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Stressée" onchange="giveAdvice()">😵 Stressée</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Maux de tête" onchange="giveAdvice()">🤕 Tête</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Acné" onchange="giveAdvice()">🔴 Peau</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Sucre" onchange="giveAdvice()">🍫 Sucre</label>
       </div>
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -108,85 +107,112 @@
 
       <label>Douleurs ?</label>
       <select id="hasPain" onchange="togglePain(); giveAdvice();"><option value="non">Non</option><option value="oui">Oui</option></select>
-      <div id="painBlock" style="display:none;">
-        <label>Intensité (0-10)</label><div class="scale" id="painScale" onchange="giveAdvice()"></div>
-      </div>
+      <div id="painBlock" style="display:none;"><label>Intensité (0-10)</label><div class="scale" id="painScale" onchange="giveAdvice()"></div></div>
 
       <div id="magicAdvice"></div>
 
       <label>Pris aujourd'hui ?</label>
       <div class="chips">
-        <label class="chip"><input type="checkbox" name="took" value="Djeka"> 🫖 Djeka</label>
-        <label class="chip"><input type="checkbox" name="took" value="Bouillotte"> 🔥 Bouillotte</label>
-        <label class="chip"><input type="checkbox" name="took" value="Tisane"> 🌼 Tisane</label>
-        <label class="chip"><input type="checkbox" name="took" value="Sport"> 🏃 Sport</label>
+        <label class="chip"><input type="checkbox" name="took" value="Djeka">🫖 Djeka</label>
+        <label class="chip"><input type="checkbox" name="took" value="Bouillotte">🔥 Bouillotte</label>
+        <label class="chip"><input type="checkbox" name="took" value="Tisane">🌼 Tisane</label>
       </div>
-      
-      <button class="btn-primary" onclick="addEntry()">Enregistrer ✨</button>
+      <button class="btn-primary" onclick="addEntry()">Enregistrer ma note ✨</button>
     </div>
   </section>
 
   <aside>
     <div class="card">
-      <div class="tabs">
-        <button class="tab active" id="tabHisto" onclick="showTab('histo')">Notes</button>
-        <button class="tab" id="tabGraph" onclick="showTab('graph')">Graphiques 📊</button>
+      <h2 style="border:none;">🧰 Mes solutions (Guide Naturo)</h2>
+      
+      <div class="bloc-naturo bloc-green">
+        <span class="bloc-title">Quand j'ai mal tout de suite :</span>
+        • Bouillotte / chaleur bas-ventre ou bas du dos<br>
+        • Positions : sur le côté genoux repliés / recroquevillée<br>
+        • Respiration lente 2-3 minutes<br>
+        • Repos + eau
       </div>
-      <div id="viewHisto">
-        <div id="ramadanStatus" class="note2" style="display:none;"></div>
-        <div id="entriesList"></div>
+
+      <div class="bloc-naturo bloc-pink">
+        <span class="bloc-title">Plantes douces (semaine AVANT les règles, stress/SPM) :</span>
+        <b>Camomille / Mélisse / Verveine</b><br>
+        • Infusion 5-10 min<br>
+        • 1 tasse le soir (ou 1-2 tasses/jour si besoin)<br>
+        • Magasin bio / herboristerie
       </div>
-      <div id="viewGraph" style="display:none;"><canvas id="cycleChart"></canvas></div>
+
+      <div class="bloc-naturo bloc-green">
+        <span class="bloc-title">Djeka (prévention + instant T) :</span>
+        <b>Préparation :</b> rincer → casserole d'eau → <b>bouillir 10 min</b> → filtrer → boire chaud ou refroidir.<br>
+        <b>Réutilisable :</b> mêmes plantes jusqu'à <b>2 fois</b> (2 décoctions max).<br><br>
+        <b>Prévention :</b> 1 tasse/jour pendant <b>3 jours autour de l'ovulation</b>, à répéter <b>3 cycles</b>.<br>
+        <b>Pendant les règles :</b> 1 tasse dès que la douleur arrive.
+      </div>
+
+      <div class="bloc-naturo bloc-pink">
+        <span class="bloc-title">Alimentation "anti-douleur" (sans privation) :</span>
+        • Si tu as mal : essaye de réduire (un peu) <b>trop de sucre + ultra-transformé</b> quelques jours.<br>
+        • Ajoute : <b>eau</b> + repas simple (riz/pâtes + légumes + protéines) + fruits.<br>
+        • Oui tu peux manger un tacos 😄 mais ton corps dit merci quand tu équilibres.
+      </div>
     </div>
 
     <div class="card">
-      <h2>🌿 Guide Naturo</h2>
-      <div class="note"><b>Djeka :</b> Ton allié phare. 1 tasse/j vers l'ovulation et dès la douleur de règles.</div>
-      <div class="note2"><b>Sommeil :</b> Si tu dors mal avant tes règles, bois de la Mélisse ou Verveine chaque soir pour anticiper.</div>
-      <div class="note"><b>Alimentation :</b> Ton assiette gère tes hormones. Évite le sucre raffiné quand tu as mal.</div>
+      <h2>📊 Récap & Graphiques</h2>
+      <div class="tabs">
+        <button class="tab active" id="tabHisto" onclick="showTab('histo')">Notes</button>
+        <button class="tab" id="tabGraph" onclick="showTab('graph')">Graphiques</button>
+      </div>
+      <div id="viewHisto"><div id="ramadanStatus" class="note"></div><div id="entriesList"></div></div>
+      <div id="viewGraph" style="display:none;"><canvas id="cycleChart"></canvas></div>
     </div>
   </aside>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-const LS_KEY = "cycle_expert_v12";
+const LS_KEY = "cycle_expert_v20_final";
 const scaleDiv = document.getElementById("painScale");
 for(let i=0; i<=10; i++){ scaleDiv.innerHTML += `<input type="radio" name="pLvl" value="${i}" title="${i}" ${i===0?'checked':''}>`; }
 
 function togglePain(){ document.getElementById("painBlock").style.display = (document.getElementById("hasPain").value === 'oui' ? 'block' : 'none'); }
 document.getElementById("ramadanMode").onchange = function(){ document.getElementById("ramadanFields").style.display = this.checked ? 'block' : 'none'; };
 
+function triggerSOS() {
+    document.getElementById("entryDate").value = new Date().toISOString().slice(0,10);
+    document.getElementById("hasPain").value = "oui";
+    togglePain();
+    giveAdvice();
+    document.getElementById("painBlock").scrollIntoView({ behavior: 'smooth' });
+}
+
 function giveAdvice() {
     const adviceDiv = document.getElementById("magicAdvice");
     let msg = [];
     const moods = Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e=>e.value);
     
-    if(moods.includes("Maux de tête")) msg.push("🤕 <b>Tête :</b> Bois beaucoup d'eau et repose tes yeux.");
-    if(moods.includes("Acné")) msg.push("🔴 <b>Peau :</b> Tes hormones stimulent le sébum. Nettoie ta peau en douceur, sans décaper.");
-    if(document.getElementById("digestion").value === "diarrhee") msg.push("💨 <b>Hormones :</b> La diarrhée est normale, c'est ton utérus qui fait bouger tes intestins !");
-    if(document.getElementById("sleep").value === "difficile") msg.push("🌙 <b>Sommeil :</b> Anticipe le mois prochain avec de la Verveine ou Mélisse le soir.");
-    if(document.getElementById("hasPain").value === "oui") msg.push("🫖 <b>Djeka :</b> Prépare ton infusion chaude.");
+    if(moods.includes("Acné")) msg.push("🔴 <b>Peau :</b> La chute de la <b>progestérone</b> et l'excès de <b>testostérone</b> stimulent le sébum. Nettoie en douceur.");
+    if(moods.includes("Maux de tête")) msg.push("🤕 <b>Tête :</b> Lié à la baisse des <b>oestrogènes</b>. Hydratation et magnésium (eau riche) aident souvent.");
+    if(document.getElementById("digestion").value === "diarrhee") msg.push("💨 <b>Digestion :</b> Ce sont les <b>prostaglandines</b> qui font contracter l'utérus ET tes intestins.");
+    if(document.getElementById("sleep").value === "difficile") msg.push("🌙 <b>Sommeil :</b> Bois une tisane de Mélisse pour apaiser ton système nerveux.");
+    if(document.getElementById("hasPain").value === "oui") msg.push("🫖 <b>Conseil Djeka :</b> Prépare ton infusion chaude (bouillir 10 min) pour calmer les spasmes.");
     
     adviceDiv.innerHTML = msg.join("<br><br>");
     adviceDiv.style.display = msg.length > 0 ? "block" : "none";
 }
 
 function getData(){ return JSON.parse(localStorage.getItem(LS_KEY) || '{"months":{}}'); }
-
 function saveMonth(){
   const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Mois?");
   data.months[m] = data.months[m] || { entries: [] };
   data.months[m].info = { start: document.getElementById("startDate").value, end: document.getElementById("endDate").value, flow: document.getElementById("mainFlow").value, ramActive: document.getElementById("ramadanMode").checked, ramTotal: document.getElementById("ramTotal").value, ramDone: document.getElementById("ramDone").value };
   localStorage.setItem(LS_KEY, JSON.stringify(data)); render(); alert("Mois enregistré!");
 }
-
 function addEntry(){
   const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Mois?");
   const entry = { id: Date.now(), date: document.getElementById("entryDate").value, sleep: document.getElementById("sleep").value, digestion: document.getElementById("digestion").value, moods: Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e=>e.value), pain: { active: document.getElementById("hasPain").value, lvl: document.querySelector('input[name="pLvl"]:checked').value }, took: Array.from(document.querySelectorAll('input[name="took"]:checked')).map(e=>e.value) };
   data.months[m].entries.push(entry); localStorage.setItem(LS_KEY, JSON.stringify(data)); render();
 }
-
 function render(){
   const data = getData(); const m = document.getElementById("mainMonth").value; const list = document.getElementById("entriesList"); const rb = document.getElementById("ramadanStatus");
   list.innerHTML = ""; if(!data.months[m]) return;
@@ -197,7 +223,6 @@ function render(){
     list.appendChild(d);
   });
 }
-
 let chart;
 function buildCharts(){
   const data = getData(); const ms = Object.keys(data.months).sort();
@@ -209,7 +234,6 @@ function buildCharts(){
     options: { scales: { y: { min: 0, max: 10 } } }
   });
 }
-
 function showTab(t){
   document.getElementById('viewHisto').style.display = t==='histo'?'block':'none';
   document.getElementById('viewGraph').style.display = t==='graph'?'block':'none';
@@ -221,4 +245,5 @@ const d = new Date(); document.getElementById("mainMonth").value = d.toISOString
 document.getElementById("entryDate").value = d.toISOString().slice(0,10); render();
 </script>
 </body>
-</html>
+  </html>
+  
