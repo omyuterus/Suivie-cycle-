@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mon suivi du cycle 🌙</title>
-
+  <title>Mon suivi de cycle 🌙</title>
   <style>
     :root{
       --bg:#fbf7f4; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
@@ -18,212 +17,258 @@
       color:var(--text); line-height: 1.5;
     }
     header, main{ max-width:1120px; margin:0 auto; padding:16px; }
-    h1{ margin:0; font-size:22px; }
-    .badge{ font-size:12px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--muted); margin-right:5px; }
-    main{ display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; }
+    main{ display:grid; grid-template-columns: 1.1fr .9fr; gap:20px; }
     @media (max-width: 1000px){ main{ grid-template-columns:1fr; } }
     .card{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:16px; }
+    .card h2{ margin-top:0; color:var(--dark); font-size:18px; border-bottom:1px solid var(--border); padding-bottom:8px;}
     .note{ background: rgba(147,176,135,.10); border:1px dashed var(--green); padding:12px; border-radius:14px; font-size:13px; margin:10px 0; }
     .note2{ background: rgba(167,77,94,.08); border:1px dashed var(--accent); padding:12px; border-radius:14px; font-size:13px; margin:10px 0; }
-    label{ font-size:13px; color:var(--muted); display:block; margin-bottom:5px; font-weight: bold; }
+    
+    /* Encadré de conseil dynamique */
+    #magicAdvice{ background: #fff9db; border: 2px solid #fab005; padding:15px; border-radius:14px; font-size:14px; display:none; margin-bottom:15px; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    label{ font-size:13px; color:var(--muted); display:block; margin-bottom:5px; font-weight: bold; margin-top:15px; }
     input, select, textarea{ width:100%; padding:12px; border:1px solid var(--border); border-radius:14px; outline:none; font-size:14px; margin-bottom:10px; }
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
     .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
-    .chip{ display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:#fff; cursor:pointer; font-size:13px; }
+    .chip{ display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:#fff; cursor:pointer; font-size:13px; transition:0.2s; }
     .chip input{ accent-color: var(--accent); width: auto; margin:0; }
     .scale{ display:grid; grid-template-columns: repeat(11, 1fr); gap:4px; }
     .scale input{ appearance:none; height:35px; border:1px solid var(--border); border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
     .scale input:checked{ border:2px solid var(--accent); background: rgba(167,77,94,.1); }
     .scale input::before{ content: attr(title); font-size:11px; }
-    button{ border:none; padding:12px 14px; border-radius:14px; cursor:pointer; font-weight:800; font-size:14px; }
+    button{ border:none; padding:12px 14px; border-radius:14px; cursor:pointer; font-weight:800; font-size:14px; transition:0.2s; }
     .btn-primary{ background:var(--accent); color:#fff; width: 100%; }
-    .btn-secondary{ background:rgba(147,176,135,.2); color:var(--dark); margin-top:5px; }
-    .btn-ghost{ background:transparent; border:1px solid var(--border); color:var(--muted); }
-    .tabs{ display:flex; gap:8px; margin-bottom:15px; }
-    .tab{ padding:10px 15px; border-radius:999px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px; }
-    .tab.active{ border-color: var(--accent); background: rgba(167,77,94,0.05); font-weight: bold; }
-    .entry{ border:1px solid var(--border); border-radius:15px; padding:12px; margin-bottom:10px; background: #fafafa; }
-    canvas{ width:100% !important; max-height:250px; }
+    .btn-secondary{ background:rgba(147,176,135,.2); color:var(--dark); margin-top:5px; width:100%; }
+    .btn-ghost{ background:transparent; border:1px solid var(--border); color:var(--muted); width:100%; margin-top:10px;}
+    .entry{ border:1px solid var(--border); border-radius:15px; padding:12px; margin-bottom:10px; background: rgba(255,255,255,0.5); }
+    .strong{ font-weight:bold; color:var(--dark); }
   </style>
 </head>
-
 <body>
+
 <header>
-  <h1>Mon suivi du cycle 🌙</h1>
-  <p style="color:var(--muted); font-size:14px;">Espace personnel pour écouter ton corps.</p>
+  <h1>Mon suivi de cycle 🌙</h1>
+  <p style="color:var(--muted); font-size:14px;">Carnet personnel : comprendre son corps et ses rythmes.</p>
 </header>
 
 <main>
   <section>
     <div class="card">
-      <h2>📅 Le mois</h2>
-      <div class="row">
+      <h2>📅 Dates & Ramadan</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div><label>Mois</label><input type="month" id="mainMonth"></div>
         <div><label>Pseudo</label><input type="text" id="nickname" placeholder="🌸"></div>
       </div>
-      <div class="row">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div><label>Début règles</label><input type="date" id="startDate"></div>
         <div><label>Fin règles</label><input type="date" id="endDate"></div>
       </div>
-      
       <div class="note2">
-        <label><input type="checkbox" id="ramadanMode" style="width:auto;"> J'ai des jours à rattraper (Ramadan)</label>
+        <label><input type="checkbox" id="ramadanMode" style="width:auto;"> Suivi Ramadan (jours à rattraper)</label>
         <div id="ramadanFields" style="display:none; margin-top:10px;">
-          <div class="row">
-            <div><label>Total à rattraper</label><input type="number" id="ramTotal"></div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div><label>Total à faire</label><input type="number" id="ramTotal"></div>
             <div><label>Déjà faits</label><input type="number" id="ramDone"></div>
           </div>
-          <button class="btn-secondary" onclick="addRamDay()">+1 jour rattrapé</button>
         </div>
       </div>
-      <button class="btn-primary" onclick="saveMonth()">Enregistrer les dates du mois</button>
+      <button class="btn-secondary" onclick="saveMonth()">Enregistrer les dates du mois</button>
     </div>
 
     <div class="card">
-      <h2>➕ Note du jour</h2>
-      <label>Date</label><input type="date" id="entryDate">
+      <h2>➕ Ma note du jour</h2>
+      <label>Date du jour</label>
+      <input type="date" id="entryDate">
       
-      <label>Humeur / Ressenti</label>
+      <label>Comment te sens-tu ?</label>
       <div class="chips">
-        <label class="chip"><input type="checkbox" name="mood" value="Calme"> 🙂 Calme</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Stressée"> 😵 Stressée</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Fatiguée"> 😴 Fatiguée</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Irritable"> 😤 Irritable</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Sensible"> 🥺 Sensible</label>
-        <label class="chip"><input type="checkbox" name="mood" value="Sucre"> 🍫 Sucre</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Calme" onchange="giveAdvice()"> 🙂 Calme</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Stressée" onchange="giveAdvice()"> 😵 Stressée</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Fatiguée" onchange="giveAdvice()"> 😴 Fatiguée</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Sensible" onchange="giveAdvice()"> 🥺 Sensible</label>
+        <label class="chip"><input type="checkbox" name="mood" value="Sucre" onchange="giveAdvice()"> 🍫 Envie de sucre</label>
       </div>
 
-      <label>Douleurs aujourd'hui ?</label>
-      <select id="hasPain" onchange="togglePain()">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div>
+          <label>Sommeil</label>
+          <select id="sleep">
+            <option value="bien">Bien dormi 😴</option>
+            <option value="moyen">Moyen</option>
+            <option value="difficile">Difficile 🌙</option>
+          </select>
+        </div>
+        <div>
+          <label>Transit / Digestion</label>
+          <select id="digestion" onchange="giveAdvice()">
+            <option value="normal">Normal 👍</option>
+            <option value="ballonnee">Ballonnée 🎈</option>
+            <option value="diarrhee">Diarrhée 💨</option>
+            <option value="constipee">Constipée 🐢</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Ovulation ressentie ?</label>
+      <select id="hasOvu" onchange="toggleOvu(); giveAdvice();">
+        <option value="non">Non / Pas encore</option>
+        <option value="oui">Oui</option>
+      </select>
+      <div id="ovuBlock" style="display:none; border-left: 3px solid var(--green); padding-left:15px; margin-bottom:15px;">
+        <label>Signes de ton corps</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="ovuSymp" value="Tiraillements"> Tiraillements</label>
+          <label class="chip"><input type="checkbox" name="ovuSymp" value="Douleurs"> Douleurs</label>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label>Côté ?</label>
+            <select id="ovuSide"><option value="?">?</option><option value="gauche">Gauche</option><option value="droite">Droite</option></select>
+          </div>
+          <div>
+            <label>Pertes</label>
+            <select id="ovuMucus"><option value="sec">Sec</option><option value="gluantes">Gluantes</option><option value="abondantes">Abondantes</option></select>
+          </div>
+        </div>
+      </div>
+
+      <label>Douleurs de règles aujourd'hui ?</label>
+      <select id="hasPain" onchange="togglePain(); giveAdvice();">
         <option value="non">Non</option>
         <option value="oui">Oui</option>
       </select>
-      
-      <div id="painBlock" style="display:none;">
-        <label>Où as-tu mal ?</label>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" name="where" value="Bas-ventre"> Bas-ventre</label>
-          <label class="chip"><input type="checkbox" name="where" value="Dos"> Dos</label>
-          <label class="chip"><input type="checkbox" name="where" value="Jambes"> Jambes</label>
-        </div>
+      <div id="painBlock" style="display:none; border-left: 3px solid var(--accent); padding-left:15px;">
         <label>Intensité (0 à 10)</label>
-        <div class="scale" id="painScale"></div>
+        <div class="scale" id="painScale" onchange="giveAdvice()"></div>
+        <label>Zone de douleur</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="where" value="Ventre"> Bas-ventre</label>
+          <label class="chip"><input type="checkbox" name="where" value="Dos"> Dos</label>
+        </div>
       </div>
+
+      <div id="magicAdvice"></div>
 
       <label>Qu'as-tu utilisé ?</label>
       <div class="chips">
         <label class="chip"><input type="checkbox" name="took" value="Bouillotte"> 🔥 Bouillotte</label>
-        <label class="chip"><input type="checkbox" name="took" value="Djeka/Khamaré"> 🫖 Djeka/Khamaré</label>
+        <label class="chip"><input type="checkbox" name="took" value="Djeka"> 🫖 Djeka/Khamaré</label>
         <label class="chip"><input type="checkbox" name="took" value="Tisane"> 🌼 Tisane</label>
         <label class="chip"><input type="checkbox" name="took" value="Rien"> 🤍 Rien</label>
       </div>
       
-      <label>Est-ce que ça t'a aidée ?</label>
-      <select id="helpful">
-        <option value="">Choisir...</option>
-        <option>Oui beaucoup</option>
-        <option>Un peu</option>
-        <option>Pas vraiment</option>
-      </select>
-
-      <label>Notes libres</label><textarea id="dailyNotes"></textarea>
-      <button class="btn-primary" onclick="addEntry()">Enregistrer cette note ✨</button>
+      <label>Remarque libre</label>
+      <textarea id="dailyNotes" placeholder="Raconte ta journée..."></textarea>
+      
+      <button class="btn-primary" onclick="addEntry()">Enregistrer ma note ✨</button>
     </div>
   </section>
 
   <aside>
     <div class="card">
-      <h2>🌿 Mes solutions Naturo</h2>
-      <div class="note"><b>Douleurs :</b> Chaleur (bouillotte), repos et respiration ventrale.</div>
-      <div class="note2"><b>Djeka / Khamaré :</b> Infusion chaude. Bouillir 10 min. Aide à apaiser dès la douleur.</div>
-      <div class="note"><b>Alimentation :</b> Favorise l'eau, les légumes et évite le sucre en période de règles.</div>
+      <h2>🌿 Solutions Naturo</h2>
+      <div class="note">
+        <b>Dès que j'ai mal :</b><br>
+        • Bouillotte (bas-ventre ou bas du dos)<br>
+        • Positions : foetus ou recroquevillée<br>
+        • Respiration ventrale lente (2-3 min)
+      </div>
+      <div class="note2">
+        <b>Djeka & Khamaré :</b><br>
+        • <b>Prévention :</b> 1 tasse/jour (3 j autour de l'ovulation) sur 3 cycles.<br>
+        • <b>Crise :</b> 1 tasse dès la douleur.<br>
+        • <b>Préparation :</b> Rincer, bouillir 10 min, filtrer.
+      </div>
+      <div class="note">
+        <b>Alimentation :</b><br>
+        • Eau ++ et repas simples (riz, légumes).<br>
+        • Éviter le sucre et l'ultra-transformé si tu as mal.
+      </div>
     </div>
-
     <div class="card">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('list')">Notes</button>
-        <button class="tab" onclick="switchTab('charts')">Graphiques</button>
-      </div>
-      <div id="view-list">
-        <div id="ramadanStatus" class="note2" style="display:none;"></div>
-        <div id="entriesList"></div>
-      </div>
-      <div id="view-charts" style="display:none;">
-        <canvas id="painChart"></canvas><canvas id="durationChart"></canvas>
-      </div>
-      <button class="btn-ghost" style="width:100%;" onclick="clearAll()">Tout effacer</button>
+      <h2>📊 Historique</h2>
+      <div id="ramadanStatus" class="note2" style="display:none;"></div>
+      <div id="entriesList"></div>
+      <button class="btn-ghost" onclick="clearAll()">Vider les données</button>
     </div>
   </aside>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-const LS_KEY = "cycle_app_v5";
+const LS_KEY = "cycle_app_final_complete";
 const scaleDiv = document.getElementById("painScale");
 for(let i=0; i<=10; i++){ scaleDiv.innerHTML += `<input type="radio" name="pLvl" value="${i}" title="${i}" ${i===0?'checked':''}>`; }
 
 function togglePain(){ document.getElementById("painBlock").style.display = (document.getElementById("hasPain").value === 'oui' ? 'block' : 'none'); }
+function toggleOvu(){ document.getElementById("ovuBlock").style.display = (document.getElementById("hasOvu").value === 'oui' ? 'block' : 'none'); }
 document.getElementById("ramadanMode").onchange = function(){ document.getElementById("ramadanFields").style.display = this.checked ? 'block' : 'none'; };
+
+// --- LOGIQUE CONSEIL DYNAMIQUE ---
+function giveAdvice() {
+    const adviceDiv = document.getElementById("magicAdvice");
+    let messages = [];
+
+    const dig = document.getElementById("digestion").value;
+    if(dig === "diarrhee") messages.push("💡 <b>Le savais-tu ?</b> La diarrhée pendant les règles est liée aux prostaglandines qui font contracter l'utérus et l'intestin. Bois bien de l'eau.");
+    if(dig === "constipee") messages.push("💡 <b>Transit :</b> La constipation peut accentuer les douleurs. Favorise les fibres (légumes) et l'eau pour aider l'évacuation des hormones.");
+
+    const moods = Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e => e.value);
+    if(moods.includes("Stressée")) messages.push("✨ <b>Zen :</b> Le stress consomme ton magnésium. Prends 2 min pour respirer lentement par le ventre.");
+    if(moods.includes("Sucre")) messages.push("🍫 <b>Énergie :</b> Tes envies de sucre indiquent un besoin de réconfort ou d'énergie. Un repas complet aide à stabiliser ça.");
+
+    const pain = document.getElementById("hasPain").value;
+    if(pain === "oui") {
+        const lvl = document.querySelector('input[name="pLvl"]:checked').value;
+        if(lvl >= 7) messages.push("🔥 <b>Aïe :</b> Douleur forte. Bouillotte + repos immédiat. Si c'est ainsi chaque mois, parles-en à un pro.");
+    }
+
+    const ovu = document.getElementById("hasOvu").value;
+    if(ovu === "oui") messages.push("🥚 <b>Ovulation :</b> Les tiraillements sont normaux. C'est le bon moment pour ton infusion Djeka en prévention.");
+
+    if(messages.length > 0) {
+        adviceDiv.innerHTML = messages.join("<br><br>");
+        adviceDiv.style.display = "block";
+    } else {
+        adviceDiv.style.display = "none";
+    }
+}
 
 function getData(){ return JSON.parse(localStorage.getItem(LS_KEY) || '{"months":{}}'); }
 
 function saveMonth(){
-    const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Choisis le mois !");
-    data.months[m] = data.months[m] || { entries: [] };
-    data.months[m].info = { 
-        start: document.getElementById("startDate").value, end: document.getElementById("endDate").value,
-        ramActive: document.getElementById("ramadanMode").checked, ramTotal: document.getElementById("ramTotal").value, ramDone: document.getElementById("ramDone").value 
-    };
-    localStorage.setItem(LS_KEY, JSON.stringify(data)); render(); alert("Dates enregistrées !");
-}
-
-function addRamDay(){ 
-    let d = document.getElementById("ramDone"); d.value = parseInt(d.value || 0) + 1; saveMonth(); 
+  const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Mois ?");
+  data.months[m] = data.months[m] || { entries: [] };
+  data.months[m].info = { start: document.getElementById("startDate").value, end: document.getElementById("endDate").value, ramActive: document.getElementById("ramadanMode").checked, ramTotal: document.getElementById("ramTotal").value, ramDone: document.getElementById("ramDone").value };
+  localStorage.setItem(LS_KEY, JSON.stringify(data)); render(); alert("Dates du mois enregistrées !");
 }
 
 function addEntry(){
-    const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Choisis le mois en haut !");
-    const entry = {
-        id: Date.now(), date: document.getElementById("entryDate").value,
-        moods: Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e=>e.value),
-        hasPain: document.getElementById("hasPain").value,
-        pLvl: document.querySelector('input[name="pLvl"]:checked').value,
-        where: Array.from(document.querySelectorAll('input[name="where"]:checked')).map(e=>e.value),
-        took: Array.from(document.querySelectorAll('input[name="took"]:checked')).map(e=>e.value),
-        helpful: document.getElementById("helpful").value, notes: document.getElementById("dailyNotes").value
-    };
-    data.months[m].entries.push(entry); localStorage.setItem(LS_KEY, JSON.stringify(data)); render(); alert("Note ajoutée !");
-}
-
-let pChart, dChart;
-function switchTab(t){
-    document.getElementById('view-list').style.display = (t==='list'?'block':'none');
-    document.getElementById('view-charts').style.display = (t==='charts'?'block':'none');
-    document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active', x.innerText.toLowerCase().includes(t.slice(0,2))));
-    if(t==='charts') buildCharts();
+  const data = getData(); const m = document.getElementById("mainMonth").value; if(!m) return alert("Mois d'abord !");
+  const entry = {
+    id: Date.now(), date: document.getElementById("entryDate").value,
+    moods: Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(e=>e.value),
+    sleep: document.getElementById("sleep").value, digestion: document.getElementById("digestion").value,
+    ovu: { active: document.getElementById("hasOvu").value },
+    pain: { active: document.getElementById("hasPain").value, lvl: document.querySelector('input[name="pLvl"]:checked').value },
+    took: Array.from(document.querySelectorAll('input[name="took"]:checked')).map(e=>e.value),
+    notes: document.getElementById("dailyNotes").value
+  };
+  data.months[m].entries.push(entry); localStorage.setItem(LS_KEY, JSON.stringify(data)); 
+  render(); alert("Note enregistrée ! ✨");
 }
 
 function render(){
-    const data = getData(); const m = document.getElementById("mainMonth").value; const list = document.getElementById("entriesList"); const rb = document.getElementById("ramadanStatus");
-    list.innerHTML = ""; if(!data.months[m]) return;
-    const info = data.months[m].info; if(info && info.ramActive){ rb.style.display="block"; rb.innerHTML = `🌙 <b>Ramadan :</b> ${info.ramDone||0}/${info.ramTotal||0} faits.`; } else rb.style.display="none";
-    data.months[m].entries.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(e=>{
-        const d = document.createElement("div"); d.className="entry";
-        d.innerHTML = `<b>📅 ${e.date}</b><br>${e.moods.join(' ')}<br>${e.hasPain==='oui'?`Pain: ${e.pLvl}/10 (${e.where.join(', ')})`:''}<br>🌿 ${e.took.join(', ')}<br><i>${e.notes}</i>`;
-        list.appendChild(d);
-    });
+  const data = getData(); const m = document.getElementById("mainMonth").value; const list = document.getElementById("entriesList"); const rb = document.getElementById("ramadanStatus");
+  list.innerHTML = ""; if(!data.months[m]) return;
+  const info = data.months[m].info; if(info && info.ramActive){ rb.style.display="block"; const reste = (info.ramTotal||0) - (info.ramDone||0); rb.innerHTML = `🌙 <b>Ramadan :</b> ${info.ramDone||0}/${info.ramTotal||0} faits. (Reste : ${reste}j)`; } else rb.style.display="none";
+  data.months[m].entries.sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(e=>{
+    const d = document.createElement("div"); d.className="entry";
+    d.innerHTML = `<b>📅 ${e.date}</b><br><small>💤 ${e.sleep} | 🥗 ${e.digestion}</small><br><small>🌿 Pris : ${e.took.join(', ') || 'Rien'}</small>`;
+    list.appendChild(d);
+  });
 }
-
-function buildCharts(){
-    const data = getData(); const ms = Object.keys(data.months).sort();
-    const pains = ms.map(m => data.months[m].entries.reduce((a,c)=>a+parseInt(c.pLvl),0)/data.months[m].entries.length || 0);
-    const durs = ms.map(m => (new Date(data.months[m].info.end)-new Date(data.months[m].info.start))/86400000+1 || 0);
-    if(pChart) pChart.destroy(); if(dChart) dChart.destroy();
-    pChart = new Chart(document.getElementById("painChart"), { type:'line', data:{labels:ms, datasets:[{label:'Douleur moyenne', data:pains, borderColor:'#a74d5e'}]}});
-    dChart = new Chart(document.getElementById("durationChart"), { type:'bar', data:{labels:ms, datasets:[{label:'Durée règles', data:durs, backgroundColor:'#93b087'}]}});
-}
-
-function clearAll(){ if(confirm("Tout effacer ?")){ localStorage.clear(); location.reload(); } }
+function clearAll(){ if(confirm("Effacer tout ?")){ localStorage.clear(); location.reload(); } }
 const d = new Date(); document.getElementById("mainMonth").value = d.toISOString().slice(0,7);
 document.getElementById("entryDate").value = d.toISOString().slice(0,10); render();
 </script>
