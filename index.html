@@ -3,18 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Mon suivi de cycle</title>
-
-  <!-- 🔹 FAVICONS / BRANDMARK -->
-  <!-- Remplace simplement les fichiers par les tiens -->
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-
-  <!-- Manifest pour raccourci écran -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#a74d5e">
 
   <style>
     :root{
@@ -67,9 +56,10 @@
       border-radius:var(--radius);
       padding:16px;
       box-shadow:var(--shadow);
+      margin-bottom: 16px;
     }
-    h2{margin-top:0;color:var(--accent3)}
-    label{font-size:13px;color:var(--muted)}
+    h2{margin-top:0;color:var(--accent3);font-size: 18px;}
+    label{font-size:13px;color:var(--muted);display:block;margin-top:10px;}
     input,select,textarea,button{
       width:100%;
       padding:12px;
@@ -78,42 +68,18 @@
       border:1px solid var(--border);
       font-size:14px;
     }
-    textarea{resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media(max-width:600px){.row{grid-template-columns:1fr}}
-    button{
-      cursor:pointer;
-      font-weight:700;
-      border:none;
-    }
+    button{cursor:pointer;font-weight:700;border:none;}
     .btn-primary{background:var(--accent);color:#fff}
     .btn-secondary{background:#93b08733;color:var(--accent3)}
-    .note{
-      background:#93b08722;
-      border:1px dashed #93b087;
-      padding:12px;
-      border-radius:14px;
-      font-size:13px;
-      margin-bottom:12px;
-    }
-    .note2{
-      background:#a74d5e22;
-      border:1px dashed #a74d5e;
-      padding:12px;
-      border-radius:14px;
-      font-size:13px;
-      margin-bottom:12px;
-    }
-    .pill{
-      display:inline-block;
-      padding:4px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:#fff;
-      font-size:12px;
-      margin:2px;
-    }
+    .note{background:#93b08722;border:1px dashed #93b087;padding:12px;border-radius:14px;font-size:13px;margin-bottom:12px;}
+    .note2{background:#a74d5e22;border:1px dashed #a74d5e;padding:12px;border-radius:14px;font-size:13px;margin-bottom:12px;}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:12px;margin:2px;}
     .divider{height:1px;background:#eadfd7;margin:12px 0}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .chip{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;background:#fff;cursor:pointer;font-size:13px;}
+    .chip input{width:auto;margin:0;}
   </style>
 </head>
 
@@ -126,168 +92,148 @@
 
 <main>
 
-<!-- 🩸 SUIVI DU MOIS -->
-<section class="card">
-  <h2>📅 Mon mois</h2>
+<section>
+  <div class="card">
+    <h2>📅 Mon mois</h2>
+    <div class="note">Écoute ton corps, sans pression.</div>
 
-  <div class="note">
-    Tu peux modifier ce mois quand tu veux.  
-    Le but est d’apprendre à comprendre ton corps, pas d’être parfaite.
+    <label>Mois</label>
+    <input type="month" id="month">
+
+    <div class="row">
+      <div><label>Début des règles</label><input type="date" id="startDate"></div>
+      <div><label>Fin des règles</label><input type="date" id="endDate"></div>
+    </div>
+
+    <label>Intensité du flux</label>
+    <select id="flow">
+      <option value="">Choisir...</option>
+      <option>Léger</option>
+      <option>Moyen</option>
+      <option>Abondant</option>
+    </select>
+
+    <label>Douleurs (0 = rien, 10 = fort)</label>
+    <input type="range" id="painScale" min="0" max="10" value="0" style="padding:0">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted)">
+      <span>Aucune</span><span>5</span><span>Max</span>
+    </div>
+
+    <label>Où as-tu eu mal ?</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="painWhere" value="Bas-ventre"> Bas-ventre</label>
+      <label class="chip"><input type="checkbox" name="painWhere" value="Dos"> Dos</label>
+      <label class="chip"><input type="checkbox" name="painWhere" value="Jambes"> Entre les jambes</label>
+    </div>
+
+    <label>Humeur (semaine avant)</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="mood" value="Stressée"> 😵 Stressée</label>
+      <label class="chip"><input type="checkbox" name="mood" value="Fatiguée"> 😴 Fatiguée</label>
+      <label class="chip"><input type="checkbox" name="mood" value="Irritable"> 😤 Irritable</label>
+      <label class="chip"><input type="checkbox" name="mood" value="Sensible"> 🥺 Sensible</label>
+    </div>
+
+    <div style="margin-top:15px;">
+      <label><input type="checkbox" id="ramadan"> Règles pendant le Ramadan</label>
+    </div>
+
+    <button class="btn-secondary" style="margin-top:15px;" onclick="saveMonth()">Enregistrer ce mois ✨</button>
   </div>
 
-  <label>Mois</label>
-  <input type="month" id="month">
-
-  <div class="row">
-    <div>
-      <label>Début des règles</label>
-      <input type="date" id="startDate">
-    </div>
-    <div>
-      <label>Fin des règles</label>
-      <input type="date" id="endDate">
-    </div>
+  <div class="card" id="recapSection" style="display:none;">
+    <h2>📊 Résumé du mois</h2>
+    <div id="monthRecap" class="note2"></div>
   </div>
-
-  <div class="row">
-    <div>
-      <label>Flux</label>
-      <select id="flow">
-        <option value="">—</option>
-        <option>léger</option>
-        <option>moyen</option>
-        <option>abondant</option>
-      </select>
-    </div>
-    <div>
-      <label>Caillots</label>
-      <select id="clots">
-        <option value="">—</option>
-        <option>non</option>
-        <option>oui</option>
-      </select>
-    </div>
-  </div>
-
-  <label>
-    <input type="checkbox" id="ramadan"> J’ai eu mes règles pendant Ramadan
-  </label>
-
-  <button class="btn-secondary" onclick="saveMonth()">Enregistrer le mois</button>
-
-  <div id="monthRecap" class="note2"></div>
 </section>
 
-<!-- 🌿 CONSEILS + RAMADAN -->
-<aside class="card">
-  <h2>🌿 Mes solutions</h2>
-
-  <div class="note">
-    <b>Douleur immédiate :</b><br>
-    • Bouillotte / chaleur<br>
-    • Positions repliées<br>
-    • Respiration lente<br>
+<aside>
+  <div class="card">
+    <h2>🌿 Mes solutions</h2>
+    <div class="note">
+      <b>Douleurs :</b> Bouillotte, repos et respiration lente.
+    </div>
+    <div class="note2">
+      <b>Infusions :</b> Camomille, Mélisse ou Verveine le soir (semaine avant).
+    </div>
+    <div class="note">
+      <b>Djeka / Khamaré :</b> 1 tasse/jour autour de l'ovulation ou dès la douleur.
+    </div>
   </div>
 
-  <div class="note2">
-    <b>Camomille • Mélisse • Verveine</b><br>
-    Infusion 5–10 min • 1 tasse le soir<br>
-    Semaine avant les règles
+  <div class="card">
+    <h2>🌙 Ramadan - Rattrapage</h2>
+    <div id="ramadanRecap" class="note">Remplis tes dates de règles pour voir ton suivi.</div>
+    <button class="btn-primary" onclick="addRamadanDay()">+1 jour rattrapé</button>
   </div>
-
-  <div class="note">
-    <b>Djeka / Khamaré</b><br>
-    • Rincer • Bouillir 10 min<br>
-    • 1 tasse/jour autour de l’ovulation (3 jours)<br>
-    • 1 tasse dès la douleur pendant les règles<br>
-    • Réutilisable 2 fois
-  </div>
-
-  <div class="divider"></div>
-
-  <h2>🌙 Ramadan – rattrapage</h2>
-
-  <div id="ramadanRecap" class="note"></div>
-
-  <button class="btn-primary" onclick="addRamadanDay()">+1 jour rattrapé</button>
 </aside>
 
 </main>
 
 <script>
-/* ================= DONNÉES ================= */
-const LS_MONTH = "cycle_month_v1";
-const LS_RAMADAN = "ramadan_progress_v1";
+const LS_MONTH = "cycle_month_v2";
+const LS_RAMADAN = "ramadan_done_v2";
 
-/* ================= MOIS ================= */
 function saveMonth(){
+  const painChecked = Array.from(document.querySelectorAll('input[name="painWhere"]:checked')).map(el => el.value);
+  const moodChecked = Array.from(document.querySelectorAll('input[name="mood"]:checked')).map(el => el.value);
+
   const data = {
-    month: month.value,
-    start: startDate.value,
-    end: endDate.value,
-    flow: flow.value,
-    clots: clots.value,
-    ramadan: ramadan.checked
+    month: document.getElementById("month").value,
+    start: document.getElementById("startDate").value,
+    end: document.getElementById("endDate").value,
+    flow: document.getElementById("flow").value,
+    pain: document.getElementById("painScale").value,
+    painWhere: painChecked,
+    mood: moodChecked,
+    ramadan: document.getElementById("ramadan").checked
   };
   localStorage.setItem(LS_MONTH, JSON.stringify(data));
-  renderMonth();
+  renderAll();
+  alert("C'est enregistré ! ✨");
 }
 
 function daysBetween(a,b){
   if(!a||!b) return 0;
-  return Math.max(0,(new Date(b)-new Date(a))/(1000*60*60*24)+1);
+  const diff = (new Date(b)-new Date(a))/(1000*60*60*24)+1;
+  return diff > 0 ? Math.round(diff) : 0;
 }
 
-function renderMonth(){
+function renderAll(){
   const m = JSON.parse(localStorage.getItem(LS_MONTH)||"{}");
-  if(!m.month) return;
+  const rDone = parseInt(localStorage.getItem(LS_RAMADAN)||"0");
+  
+  if(m.month){
+    document.getElementById("recapSection").style.display = "block";
+    const days = daysBetween(m.start, m.end);
+    document.getElementById("monthRecap").innerHTML = `
+      <span class="pill">🩸 ${days} jours</span>
+      <span class="pill">⚡ Douleur : ${m.pain}/10</span>
+      <span class="pill">💧 Flux ${m.flow||"—"}</span>
+      <br><small>Localisation : ${m.painWhere?.join(', ') || '—'}</small>
+    `;
 
-  const days = daysBetween(m.start,m.end);
-  monthRecap.innerHTML = `
-    <span class="pill">🩸 ${days} jours</span>
-    <span class="pill">💧 ${m.flow||"—"}</span>
-    <span class="pill">🌙 Ramadan : ${m.ramadan?"oui":"non"}</span>
-  `;
-  renderRamadan();
+    const totalToCatch = m.ramadan ? days : 0;
+    const left = Math.max(0, totalToCatch - rDone);
+    document.getElementById("ramadanRecap").innerHTML = `
+      <span class="pill">À rattraper : ${totalToCatch}</span>
+      <span class="pill">Rattrapés : ${rDone}</span>
+      <span class="pill">Restants : ${left}</span>
+    `;
+  }
 }
 
-/* ================= RAMADAN ================= */
-function getRamadan(){
-  return JSON.parse(localStorage.getItem(LS_RAMADAN)||'{"done":0}');
-}
 function addRamadanDay(){
-  const r = getRamadan();
-  r.done += 1;
-  localStorage.setItem(LS_RAMADAN, JSON.stringify(r));
-  renderRamadan();
-}
-function renderRamadan(){
-  const m = JSON.parse(localStorage.getItem(LS_MONTH)||"{}");
-  const r = getRamadan();
-  const total = m.ramadan ? daysBetween(m.start,m.end) : 0;
-  const left = Math.max(0,total - r.done);
-
-  ramadanRecap.innerHTML = `
-    <span class="pill">À rattraper : ${total}</span>
-    <span class="pill">Rattrapés : ${r.done}</span>
-    <span class="pill">Restants : ${left}</span>
-  `;
+  let rDone = parseInt(localStorage.getItem(LS_RAMADAN)||"0");
+  rDone++;
+  localStorage.setItem(LS_RAMADAN, rDone);
+  renderAll();
 }
 
-/* ================= INIT ================= */
-const month = document.getElementById("month");
-const startDate = document.getElementById("startDate");
-const endDate = document.getElementById("endDate");
-const flow = document.getElementById("flow");
-const clots = document.getElementById("clots");
-const ramadan = document.getElementById("ramadan");
-const monthRecap = document.getElementById("monthRecap");
-const ramadanRecap = document.getElementById("ramadanRecap");
-
+// Initialisation
 const now = new Date();
-month.value = now.toISOString().slice(0,7);
-
-renderMonth();
+document.getElementById("month").value = now.toISOString().slice(0,7);
+renderAll();
 </script>
 
 </body>
